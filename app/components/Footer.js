@@ -7,14 +7,14 @@ const Footer = () => {
         <div className="column first">
           <div className="footer text-center">
             <a href="/">
-              <Image src="/logo_icon2.png" width={180} height={150} alt="Logo Icon" />
+              <Image src="/logo_icon2.png" width={220} height={210} alt="Logo Icon" />
             </a>
           </div>
         </div>
         <div className="column">
           <h4 className="fw-bold">
             <a href="/">
-              <Image src="/logo_with_word.png" width={90} height={50} alt="Logo with Word" />
+              <Image src="/logo_with_word.png" width={160} height={80} alt="Logo with Word" />
             </a>
           </h4>
           <ul className="list-unstyled">
