@@ -10,13 +10,13 @@ export default function Home() {
         <p className="text-light text-center pb-4">Vhagar on Solana Staking Pool</p>
         <div className={styles.content}>
       <div className={styles.block}>
-        <div className={styles.totstake}><div>Total Staked: 80000</div>
+        <div className={styles.totstake}><div>Total Staked: 80 000 000 VGR</div>
         <div>
-          Total Pending Reward
+          Total Claimable Reward: 30 000 000 VGR
         </div>
         </div>
         <div className={styles.bloco}>
-        <li className={styles.blocli}>Lock Tag</li>
+        <li className={styles.blocli}>Tier</li>
           <li className={styles.blocli}>Bronze</li>
           <li className={styles.blocli}>Silver</li>
           <li className={styles.blocli}>Gold</li>
@@ -71,7 +71,7 @@ export default function Home() {
                   aria-label="Large select example"
                   style={{ backgroundColor: "#0a194970" }}
                 >
-                  <option selected>Select Lock Tag</option>
+                  <option selected>Select Tier</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>
@@ -98,6 +98,38 @@ export default function Home() {
             </div>
             <div className={styles.cols}>
               <div className="p-3">
+                <h3 className="text-light pb-3">AUTOCOMPOUND</h3>
+
+                <select
+                  class="form-select form-select-lg mb-3 text-light"
+                  aria-label="Large select example"
+                  style={{ backgroundColor: "#0a194970" }}
+                >
+                  <option selected>Select Tier</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+                {/* <select
+                  class="form-select form-select-lg mb-3 text-light"
+                  aria-label="Large select example"
+                  style={{ backgroundColor: "#0a194970" }}
+                >
+                  <option selected>Select Slot</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select> */}
+                <h4
+                  className="p-3 border border-light text-center"
+                  style={{ backgroundColor: "#63b560" }}
+                >
+                  Execute
+                </h4>
+              </div>
+            </div>
+            <div className={styles.cols}>
+              <div className="p-3">
                 <h3 className="text-light pb-3">UNSTAKE</h3>
 
         
@@ -106,7 +138,7 @@ export default function Home() {
                     aria-label="Large select example"
                     style={{ backgroundColor: "#0a194970" }}
                   >
-                    <option selected>Select Lock Tag</option>
+                    <option selected>Select Tier</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
                     <option value="3">Three</option>
@@ -130,38 +162,7 @@ export default function Home() {
                 </h4>
               </div>
             </div>
-            <div className={styles.cols}>
-              <div className="p-3">
-                <h3 className="text-light pb-3">AUTOCOMPOUND</h3>
 
-                <select
-                  class="form-select form-select-lg mb-3 text-light"
-                  aria-label="Large select example"
-                  style={{ backgroundColor: "#0a194970" }}
-                >
-                  <option selected>Select Lock Tag</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select>
-                {/* <select
-                  class="form-select form-select-lg mb-3 text-light"
-                  aria-label="Large select example"
-                  style={{ backgroundColor: "#0a194970" }}
-                >
-                  <option selected>Select Slot</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select> */}
-                <h4
-                  className="p-3 border border-light text-center"
-                  style={{ backgroundColor: "#63b560" }}
-                >
-                  Execute
-                </h4>
-              </div>
-            </div>
           </div>
           <div className="d-flex justify-content-center">
             <p className="text-light p-3" style={{ width: "85%" }}>
