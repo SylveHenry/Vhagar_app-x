@@ -22,10 +22,10 @@ export default function Home() {
           <li className={styles.blocli}>Gold</li>
           <li className={styles.blocli}>Diamond</li>
           <li className={styles.blocli}>Lock Period</li>
-          <li className={styles.blocli}>15.77%</li>
-          <li className={styles.blocli}>30.45%</li>
-          <li className={styles.blocli}>56.76%</li>
-          <li className={styles.blocli}>10.51%</li>
+          <li className={styles.blocli}>15 Days</li>
+          <li className={styles.blocli}>30 Days</li>
+          <li className={styles.blocli}>60 Days</li>
+          <li className={styles.blocli}>120 Days</li>
           <li className={styles.blocli}>Reward Percentage</li>
           <li className={styles.blocli}>15.77%</li>
           <li className={styles.blocli}>30.45%</li>
