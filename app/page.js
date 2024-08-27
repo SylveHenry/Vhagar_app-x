@@ -56,14 +56,14 @@ export default function Home() {
                   amount
                 </p>
                 <select
-                  className="form-select form-select-lg mb-3 text-light"
+                  className={`form-select form-select-lg mb-3 text-light ${styles.customSelect}`}
                   aria-label="Large select example"
-                  style={{ backgroundColor: "#0a194970" }}
                 >
                   <option selected>Select Tier</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value="1">Bronze</option>
+                  <option value="2">Silver</option>
+                  <option value="3">Gold</option>
+                  <option value="4">Diamond</option>
                 </select>
                 <button className={styles.executeButton}>
                   Execute
@@ -74,14 +74,14 @@ export default function Home() {
               <div className="p-3">
                 <h3 className="text-light pb-3">AUTOCOMPOUND</h3>
                 <select
-                  className="form-select form-select-lg mb-3 text-light"
+                  className={`form-select form-select-lg mb-3 text-light ${styles.customSelect}`}
                   aria-label="Large select example"
-                  style={{ backgroundColor: "#0a194970" }}
                 >
                   <option selected>Select Tier</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value="1">Bronze</option>
+                  <option value="2">Silver</option>
+                  <option value="3">Gold</option>
+                  <option value="4">Diamond</option>
                 </select>
                 <button className={styles.executeButton}>
                   Execute
@@ -92,14 +92,14 @@ export default function Home() {
               <div className="p-3">
                 <h3 className="text-light pb-3">UNSTAKE</h3>
                 <select
-                  className="form-select form-select-lg mb-3 text-light"
+                  className={`form-select form-select-lg mb-3 text-light ${styles.customSelect}`}
                   aria-label="Large select example"
-                  style={{ backgroundColor: "#0a194970" }}
                 >
                   <option selected>Select Tier</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value="1">Bronze</option>
+                  <option value="2">Silver</option>
+                  <option value="3">Gold</option>
+                  <option value="4">Diamond</option>
                 </select>
                 <button className={styles.executeButton}>
                   Execute
