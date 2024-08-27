@@ -1,6 +1,6 @@
 "use client";
 
-import debounce from "lodash.debounce"; // Importing debounce from lodash
+import debounce from "lodash.debounce";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -8,7 +8,7 @@ const Navbar = () => {
   const [navbarClass, setNavbarClass] = useState(
     "navbar navbar-expand-lg navbar-light bg-transparent"
   );
-  const [logoSrc, setLogoSrc] = useState("../images/logo_with_word.png");
+  const [logoSrc, setLogoSrc] = useState("/logo_with_word.png");
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -33,9 +33,9 @@ const Navbar = () => {
   useEffect(() => {
     const handleResize = debounce(() => {
       if (window.innerWidth < 992) {
-        setLogoSrc("../images/logo_with_word2.png");
+        setLogoSrc("/logo_with_word2.png");
       } else {
-        setLogoSrc("../images/logo_with_word.png");
+        setLogoSrc("/logo_with_word.png");
       }
     }, 100);
 
@@ -52,19 +52,20 @@ const Navbar = () => {
     <nav className={navbarClass}>
       <div className="container-fluid p-2">
         <a className="navbar-brand text-light ps-2" href="#">
-          <Image src="/logo_with_word.png" width={128} height={77}></Image>
+          <Image src={logoSrc} width={128} height={77} alt="Logo" />
         </a>
         <a
-            className="ms-auto nav-item stake-button me-3 stake-small"
-            href="https://app.vhagar.finance/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <button className="btn" type="button">
-              CONNECT WALLET
-            </button>
-          </a><button
-          className="navbar-toggler "
+          className="ms-auto nav-item stake-button me-3 stake-small"
+          href="https://app.vhagar.finance/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <button className="btn" type="button">
+            CONNECT WALLET
+          </button>
+        </a>
+        <button
+          className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
@@ -72,7 +73,7 @@ const Navbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <h2><i class="bi bi-list text-light"></i></h2>
+          <h2><i className="bi bi-list text-light"></i></h2>
         </button>
         <div
           className="collapse navbar-collapse justify-content-center"
@@ -110,7 +111,6 @@ const Navbar = () => {
               </a>
             </li>
           </ul>
-          
         </div>
         <a
           className="ms-auto nav-item stake-button me-3 stake-large"
@@ -122,14 +122,9 @@ const Navbar = () => {
             CONNECT WALLET
           </button>
         </a>
-       
       </div>
     </nav>
   );
 };
 
 export default Navbar;
-
-
-
-

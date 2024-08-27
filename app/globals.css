@@ -11,7 +11,6 @@ body {
   height: 100%;
 }
 
-
 body {
   background-color: #050c24;
 }
@@ -23,22 +22,16 @@ body {
   top: 0;
   width: 100%;
   z-index: 1000;
-  
 }
 
 .bg-transparent {
   background-color: transparent !important;
-  backdrop-filter: blur(10px); /* For blur effect */
+  backdrop-filter: blur(10px);
 }
 
 .bg-scrolled {
-  background-color: rgba(
-    55,
-    61,
-    80,
-    0.8
-  ) !important; /* Semi-transparent color #373D50 */
-  backdrop-filter: blur(2px); /* Apply blur effect */
+  background-color: rgba(55, 61, 80, 0.8) !important;
+  backdrop-filter: blur(2px);
 }
 
 .nav-link {
@@ -46,24 +39,24 @@ body {
 }
 
 .nav-link.active {
-  color: #5ee616 !important; /* Active link text color */
-  border-bottom: 2px solid #5ee616; /* Bottom border for active link */
+  color: #5ee616 !important;
+  border-bottom: 2px solid #5ee616;
 }
 
 .nav-link:hover {
-  color: #5ee616 !important; /* Active link text color */
-  border-bottom: 2px solid #5ee616; /* Bottom border for active link */
+  color: #5ee616 !important;
+  border-bottom: 2px solid #5ee616;
 }
 
 .nav-item {
   font-family: "BeldgoRegular", sans-serif;
 }
 
-.navbar-toggler{
+.navbar-toggler {
   border: none !important;
 }
 
-.navbar-toggler:focus{
+.navbar-toggler:focus {
   box-shadow: none !important;
 }
 
@@ -81,9 +74,6 @@ body {
   border: 2px solid #5ee616;
 }
 
-
-
-
 /* Footer section */
 footer {
   background-color: #1e2230;
@@ -96,6 +86,7 @@ footer {
 .co-cont {
   margin-right: 35px;
 }
+
 .containerr {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -109,7 +100,7 @@ footer {
 }
 
 .column {
-  width: 20% 20% 20% 20% 20%; /* Adjust width as needed */
+  width: 20% 20% 20% 20% 20%;
   padding: 0 0;
   min-width: 0;
 }
@@ -140,23 +131,29 @@ footer {
   color: #5ee616;
   transition: color 0.3s ease;
 }
-.stake-small{
+
+.stake-small {
   display: none;
 }
 
-
-
-
-/* styles/globals.css */
 select:focus {
   outline: none !important;
   box-shadow: none !important;
-  border-color: #ced4da; /* Adjust this color as needed */
+  border-color: #ced4da;
+}
+
+/* New styles for social media icons */
+.social-icon {
+  transition: filter 0.3s ease;
+}
+
+.social-icon:hover {
+  filter: drop-shadow(0 0 10px #5ee616);
 }
 
 @media screen and (max-width: 765px) {
   .column {
-    width: 100%; /* Adjust width as needed */
+    width: 100%;
     padding: 0 0;
     min-width: 0;
   }
@@ -164,10 +161,19 @@ select:focus {
   .first {
     display: none;
   }
-  .stake-large{
+
+  .stake-large {
     display: none;
   }
-  .stake-small{
+
+  .stake-small {
     display: block;
+  }
+}
+
+/* New media query for smaller screens */
+@media screen and (max-width: 500px) {
+  .stake-button .btn {
+    font-size: 0.8rem;
   }
 }

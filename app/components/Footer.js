@@ -7,14 +7,14 @@ const Footer = () => {
         <div className="column first">
           <div className="footer text-center">
             <a href="/">
-              <Image src="/logo_icon2.png" width={180} height={150}></Image>
+              <Image src="/logo_icon2.png" width={180} height={150} alt="Logo Icon" />
             </a>
           </div>
         </div>
         <div className="column">
           <h4 className="fw-bold">
             <a href="/">
-              <Image src="/logo_with_word.png" width={90} height={50}></Image>
+              <Image src="/logo_with_word.png" width={90} height={50} alt="Logo with Word" />
             </a>
           </h4>
           <ul className="list-unstyled">
@@ -86,7 +86,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="pe-2"
             >
-              <Image src="/discord.png" width={50} height={50}></Image>
+              <Image src="/discord.png" width={50} height={50} alt="Discord" className="social-icon" />
             </a>
             <a
               href="https://telegram.org"
@@ -94,7 +94,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="pe-2"
             >
-              <Image src="/telegram.png" width={50} height={50}></Image>
+              <Image src="/telegram.png" width={50} height={50} alt="Telegram" className="social-icon" />
             </a>
             <a
               href="https://x.com"
@@ -102,7 +102,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="bg-light"
             >
-              <Image src="/x1.png" width={50} height={50}></Image>
+              <Image src="/x1.png" width={50} height={50} alt="X" className="social-icon" />
             </a>
           </div>
         </div>
