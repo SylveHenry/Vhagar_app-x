@@ -235,6 +235,21 @@
   border: 2px solid #5ee616 !important;
 }
 
+:global(.wallet-adapter-dropdown) {
+  background-color: #0a194970 !important;
+  border: 2px solid #63b560 !important;
+  border-radius: 10px !important;
+}
+
+:global(.wallet-adapter-dropdown-list-item) {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+:global(.wallet-adapter-dropdown-list-item:hover) {
+  background-color: #63b560 !important;
+}
+
 .displayArea {
   background-color: rgba(10, 25, 73, 0.8);
   border: 2px solid #63b560;

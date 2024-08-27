@@ -43,13 +43,6 @@ export default function Home() {
           <div className={styles.firstblock}>
             <div className={styles.stakinfo}>
               <h2 className="text-light">Your staking info</h2>
-              <button className={styles.updateInfoButton} onClick={() => {
-                if (window.getUserInfo) {
-                  window.getUserInfo();
-                }
-              }}>
-                Update Info
-              </button>
             </div>
             <div className="p-4">
               {userInfo ? (

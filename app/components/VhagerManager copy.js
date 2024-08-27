@@ -38,11 +38,12 @@ export default function VhagerManager({ setUserInfo, setError, setResult }) {
       });
       const program = new anchor.Program(idl, programId, provider);
       setProgram(program);
+      getUserInfo();
     } else {
       setProgram(null);
       setUserInfo(null);
     }
-  }, [wallet.connected, setUserInfo]);
+  }, [wallet.connected]);
 
   const handleInputChange = (name, field, value) => {
     setInputs(prev => ({
@@ -70,11 +71,7 @@ export default function VhagerManager({ setUserInfo, setError, setResult }) {
     }
   };
 
-  const getUserInfo = useCallback(async () => {
-    if (!program || !wallet.connected) {
-      setError("Wallet not connected or program not initialized");
-      return;
-    }
+  const getUserInfo = async () => {
     setLoading(true);
     setError(null);
     try {
@@ -103,20 +100,7 @@ export default function VhagerManager({ setUserInfo, setError, setResult }) {
     } finally {
       setLoading(false);
     }
-  }, [program, wallet.connected, wallet.publicKey, setUserInfo, setError]);
-
-  useEffect(() => {
-    if (program && wallet.connected) {
-      getUserInfo();
-    }
-  }, [program, wallet.connected, getUserInfo]);
-
-  useEffect(() => {
-    window.getUserInfo = getUserInfo;
-    return () => {
-      delete window.getUserInfo;
-    };
-  }, [getUserInfo]);
+  };
 
   const functions = {
     stake: {

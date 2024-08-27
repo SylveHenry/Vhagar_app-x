@@ -3,20 +3,14 @@
 import debounce from "lodash.debounce";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useWallet } from '@solana/wallet-adapter-react';
-import dynamic from 'next/dynamic';
-
-const WalletMultiButton = dynamic(
-  () => import('@solana/wallet-adapter-react-ui').then((mod) => mod.WalletMultiButton),
-  { ssr: false }
-);
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import styles from "../page.module.css";
 
 const Navbar = () => {
   const [navbarClass, setNavbarClass] = useState(
     "navbar navbar-expand-lg navbar-light bg-transparent"
   );
   const [logoSrc, setLogoSrc] = useState("/logo_with_word.png");
-  const wallet = useWallet();
 
   useEffect(() => {
     const handleScroll = debounce(() => {
@@ -111,7 +105,21 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="ms-auto">
-          <WalletMultiButton className="btn btn-outline-light" />
+          <style jsx global>{`
+            .wallet-adapter-dropdown {
+              background-color: #0a194970 !important;
+              border: 2px solid #63b560 !important;
+              border-radius: 10px !important;
+            }
+            .wallet-adapter-dropdown-list-item {
+              background-color: transparent !important;
+              color: white !important;
+            }
+            .wallet-adapter-dropdown-list-item:hover {
+              background-color: #63b560 !important;
+            }
+          `}</style>
+          <WalletMultiButton className={styles.walletButton} />
         </div>
       </div>
     </nav>
