@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./page.module.css";
 import { buildCustomRoute } from "next/dist/server/lib/router-utils/filesystem";
 
@@ -107,13 +108,25 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="d-flex justify-content-center">
-            <p className="text-light p-3" style={{ width: "85%" }}>
-              <i>Note:</i> Lorem ipsum dolor sit, amet consectetur adipisicing
-              elit. Porro commodi praesentium, dolore consequatur alias aliquam
-              cupiditate laudantium iste laboriosam ipsum cum quae repellendus
-              asperiores accusamus expedita esse non quo excepturi! Lorem ipsum
-            </p>
+          <div className={`${styles.noteContainer} d-flex flex-column flex-md-row align-items-center justify-content-center`}>
+            <div className={`${styles.exclamationImageContainer} d-none d-md-block`}>
+              <Image 
+                src="/exclamation.png" 
+                alt="Exclamation Mark" 
+                width={70} 
+                height={112} 
+                layout="responsive"
+              />
+            </div>
+            <div className={styles.noteText}>
+              <p className={`p-3 ${styles.dullYellowText}`}>
+                <i>Note:</i> If you unstake or unlock your funds before reaching the halfway point of the lock-up period or duration, you will lose all of your allocated rewards.
+                <br/>
+                If you unstake or unlock after the halfway point but before the end of the lock-up period or duration, you will forfeit 50% of your allocated rewards.
+                <br/>
+                If you unstake or unlock after the full lock-up period or duration has ended, you will receive 100% of your allocated rewards.
+              </p>
+            </div>
           </div>
         </div>
       </div>
