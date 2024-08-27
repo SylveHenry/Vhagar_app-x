@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { buildCustomRoute } from "next/dist/server/lib/router-utils/filesystem";
+import VhagerManager from "./components/VhagerManager";
 
 export default function Home() {
   return (
@@ -49,74 +49,16 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className={styles.column}>
-            <div className={styles.cols}>
-              <div className="p-3">
-                <h3 className="text-light pb-3">STAKE</h3>
-                <p className="p-3" style={{ border: "1px solid #63b560" }}>
-                  amount
-                </p>
-                <select
-                  className={`form-select form-select-lg mb-3 text-light ${styles.customSelect}`}
-                  aria-label="Large select example"
-                >
-                  <option selected>Select Tier</option>
-                  <option value="1">Bronze</option>
-                  <option value="2">Silver</option>
-                  <option value="3">Gold</option>
-                  <option value="4">Diamond</option>
-                </select>
-                <button className={styles.executeButton}>
-                  Execute
-                </button>
-              </div>
-            </div>
-            <div className={styles.cols}>
-              <div className="p-3">
-                <h3 className="text-light pb-3">AUTOCOMPOUND</h3>
-                <select
-                  className={`form-select form-select-lg mb-3 text-light ${styles.customSelect}`}
-                  aria-label="Large select example"
-                >
-                  <option selected>Select Tier</option>
-                  <option value="1">Bronze</option>
-                  <option value="2">Silver</option>
-                  <option value="3">Gold</option>
-                  <option value="4">Diamond</option>
-                </select>
-                <button className={styles.executeButton}>
-                  Execute
-                </button>
-              </div>
-            </div>
-            <div className={styles.cols}>
-              <div className="p-3">
-                <h3 className="text-light pb-3">UNSTAKE</h3>
-                <select
-                  className={`form-select form-select-lg mb-3 text-light ${styles.customSelect}`}
-                  aria-label="Large select example"
-                >
-                  <option selected>Select Tier</option>
-                  <option value="1">Bronze</option>
-                  <option value="2">Silver</option>
-                  <option value="3">Gold</option>
-                  <option value="4">Diamond</option>
-                </select>
-                <button className={styles.executeButton}>
-                  Execute
-                </button>
-              </div>
-            </div>
-          </div>
+          <VhagerManager />
           <div className={`${styles.noteContainer} d-flex flex-column flex-md-row align-items-center justify-content-center`}>
             <div className={`${styles.exclamationImageContainer} d-none d-md-block`}>
-              <Image 
-                src="/exclamation.png" 
-                alt="Exclamation Mark" 
-                width={70} 
-                height={112} 
-                layout="responsive"
-              />
+            <Image 
+  src="/exclamation.png" 
+  alt="Exclamation Mark" 
+  width={70} 
+  height={112} 
+  style={{width: '100%', height: 'auto'}}
+/>
             </div>
             <div className={styles.noteText}>
               <p className={`p-3 ${styles.dullYellowText}`}>

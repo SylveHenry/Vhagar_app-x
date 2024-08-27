@@ -4,10 +4,7 @@ import Navbar from "./components/Navbar";
 import "./globals.css";
 import Footer from "./components/Footer";
 import 'bootstrap-icons/font/bootstrap-icons.css';
-
-
-
-
+import WalletContextProvider from "./components/WalletContextProvider";
 
 export const metadata = {
   title: "Vhagar Dapp",
@@ -19,9 +16,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <BootstrapClient />
-        <Navbar />
-        {children}
-        <Footer />
+        <WalletContextProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </WalletContextProvider>
       </body>
     </html>
   );
