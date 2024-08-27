@@ -54,8 +54,17 @@ const Navbar = () => {
         <a className="navbar-brand text-light ps-2" href="#">
           <Image src="/logo_with_word.png" width={128} height={77}></Image>
         </a>
-        <button
-          className="navbar-toggler"
+        <a
+            className="ms-auto nav-item stake-button me-3 stake-small"
+            href="https://app.vhagar.finance/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="btn" type="button">
+              CONNECT WALLET
+            </button>
+          </a><button
+          className="navbar-toggler "
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
@@ -63,7 +72,7 @@ const Navbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <i className="bi bi-list text-light"></i>
+          <h2><i class="bi bi-list text-light"></i></h2>
         </button>
         <div
           className="collapse navbar-collapse justify-content-center"
@@ -101,16 +110,7 @@ const Navbar = () => {
               </a>
             </li>
           </ul>
-          <a
-            className="ms-auto nav-item stake-button me-3 stake-small"
-            href="https://app.vhagar.finance/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <button className="btn" type="button">
-              STAKE VGR
-            </button>
-          </a>
+          
         </div>
         <a
           className="ms-auto nav-item stake-button me-3 stake-large"
@@ -119,12 +119,17 @@ const Navbar = () => {
           rel="noopener noreferrer"
         >
           <button className="btn" type="button">
-            STAKE VGR
+            CONNECT WALLET
           </button>
         </a>
+       
       </div>
     </nav>
   );
 };
 
 export default Navbar;
+
+
+
+

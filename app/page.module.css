@@ -1,8 +1,22 @@
+@font-face {
+  font-family: "BeldgoRegular";
+  src: url("/fonts/Beldgo-Regular.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .contai {
   margin-top: 99px;
   display: flex;
   flex-direction: column;
   padding: 80px;
+}
+
+.cont{
+  font-family: 'BeldgoRegular', sans-serif;
+  color: #4e914c;
+  justify-content: center;
+  display: flex;
 }
 
 .content {
@@ -11,8 +25,14 @@
   box-shadow: inset;
   padding: 30px;
   padding-bottom: 60px;
+  
 }
-
+.totstake{
+  display: flex;
+  justify-content: space-between;
+  background-color: #4e914c;
+  padding: 10px;
+}
 .info {
   background-color: #4e914c;
   color: white;
@@ -24,6 +44,26 @@
   margin: auto 70px;
   color: white;
   background-color: #63b560;
+}
+
+.block{
+  color: white;
+  margin: 20px 70px;
+  border: 2px solid #63b560;
+  padding: 20px;
+}
+.bloco{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  padding: 30px;
+justify-content: center;
+align-items: center;
+  
+}
+.blocli{
+list-style-type: none;
+padding-bottom: 20px;
+
 }
 
 .column {
@@ -75,7 +115,14 @@
     flex-direction: column;
     padding: 20px;
   }
-
+  .bloco{
+    display: none;
+  }
+  .totstake{
+  display: block;
+  padding: 10px;
+  background-color: #0a194970;
+}
   .content {
     flex: 1;
     background-color: #0a194970;
@@ -83,7 +130,12 @@
     padding: 10px;
     padding-bottom: 20px;
   }
-
+  .block{
+    color: white;
+    margin: 2px;
+    border: none;
+    display: block;
+  }
   .info {
     background-color: #4e914c;
     color: white;

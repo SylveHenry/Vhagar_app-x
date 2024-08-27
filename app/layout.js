@@ -3,6 +3,11 @@ import BootstrapClient from "./bootstrap";
 import Navbar from "./components/Navbar";
 import "./globals.css";
 import Footer from "./components/Footer";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
+
+
+
 
 export const metadata = {
   title: "Vhagar Dapp",
@@ -13,7 +18,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {/* <BootstrapClient /> */}
+        <BootstrapClient />
         <Navbar />
         {children}
         <Footer />

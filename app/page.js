@@ -1,18 +1,39 @@
 import Link from "next/link";
 import styles from "./page.module.css";
+import { buildCustomRoute } from "next/dist/server/lib/router-utils/filesystem";
 
 export default function Home() {
   return (
     <>
       <div className={styles.contai}>
-        <h1 className="text-light text-center pb-3">Vhagar token manager</h1>
+        <h1 className={styles.cont} >Vhagar Staking Pool</h1>
+        <p className="text-light text-center pb-4">Vhagar on Solana Staking Pool</p>
         <div className={styles.content}>
-          <div className={styles.token}>
-            <h2 className="text-light">Vhager token manager</h2>
-            <button className="btn text-light stake-button">
-              Connect Wallet
-            </button>
+      <div className={styles.block}>
+        <div className={styles.totstake}><div>Total Staked: 80000</div>
+        <div>
+          Total Pending Reward
+        </div>
+        </div>
+        <div className={styles.bloco}>
+        <li className={styles.blocli}>Lock Tag</li>
+          <li className={styles.blocli}>Bronze</li>
+          <li className={styles.blocli}>Silver</li>
+          <li className={styles.blocli}>Gold</li>
+          <li className={styles.blocli}>Diamond</li>
+          <li className={styles.blocli}>Lock Period</li>
+          <li className={styles.blocli}>15.77%</li>
+          <li className={styles.blocli}>30.45%</li>
+          <li className={styles.blocli}>56.76%</li>
+          <li className={styles.blocli}>10.51%</li>
+          <li className={styles.blocli}>Reward Percentage</li>
+          <li className={styles.blocli}>15.77%</li>
+          <li className={styles.blocli}>30.45%</li>
+          <li className={styles.blocli}>56.76%</li>
+          <li className={styles.blocli}>10.51%</li>
+          
           </div>
+      </div>
           <div className={styles.firstblock}>
             <div className={styles.stakinfo}>
               <h2 className="text-light">Your staking info</h2>
@@ -55,7 +76,7 @@ export default function Home() {
                   <option value="2">Two</option>
                   <option value="3">Three</option>
                 </select>
-                <select
+                {/* <select
                   class="form-select form-select-lg mb-3 text-light"
                   aria-label="Large select example"
                   style={{ backgroundColor: "#0a194970" }}
@@ -64,7 +85,7 @@ export default function Home() {
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>
-                </select>
+                </select> */}
                 <Link className={styles.link} href="/">
                   <h4
                     className="p-3 border border-light text-center"
@@ -91,7 +112,7 @@ export default function Home() {
                     <option value="3">Three</option>
                   </select>
                 
-                <select
+                {/* <select
                   class="form-select form-select-lg mb-3 text-light"
                   aria-label="Large select example"
                   style={{ backgroundColor: "#0a194970" }}
@@ -100,7 +121,7 @@ export default function Home() {
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>
-                </select>
+                </select> */}
                 <h4
                   className="p-3 border border-light text-center"
                   style={{ backgroundColor: "#63b560" }}
@@ -123,7 +144,7 @@ export default function Home() {
                   <option value="2">Two</option>
                   <option value="3">Three</option>
                 </select>
-                <select
+                {/* <select
                   class="form-select form-select-lg mb-3 text-light"
                   aria-label="Large select example"
                   style={{ backgroundColor: "#0a194970" }}
@@ -132,7 +153,7 @@ export default function Home() {
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>
-                </select>
+                </select> */}
                 <h4
                   className="p-3 border border-light text-center"
                   style={{ backgroundColor: "#63b560" }}

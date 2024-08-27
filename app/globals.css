@@ -11,6 +11,7 @@ body {
   height: 100%;
 }
 
+
 body {
   background-color: #050c24;
 }
@@ -22,6 +23,7 @@ body {
   top: 0;
   width: 100%;
   z-index: 1000;
+  
 }
 
 .bg-transparent {
@@ -57,6 +59,14 @@ body {
   font-family: "BeldgoRegular", sans-serif;
 }
 
+.navbar-toggler{
+  border: none !important;
+}
+
+.navbar-toggler:focus{
+  box-shadow: none !important;
+}
+
 .stake-button {
   background: linear-gradient(to right, #5ee616, #15b8a3);
   border-radius: 5px;
@@ -71,9 +81,8 @@ body {
   border: 2px solid #5ee616;
 }
 
-.stake-small {
-  display: none;
-}
+
+
 
 /* Footer section */
 footer {
@@ -131,6 +140,10 @@ footer {
   color: #5ee616;
   transition: color 0.3s ease;
 }
+.stake-small{
+  display: none;
+}
+
 
 
 
@@ -150,5 +163,11 @@ select:focus {
 
   .first {
     display: none;
+  }
+  .stake-large{
+    display: none;
+  }
+  .stake-small{
+    display: block;
   }
 }
