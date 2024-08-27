@@ -6,8 +6,8 @@ export default function Home() {
   return (
     <>
       <div className={styles.contai}>
-        <h1 className={styles.cont} >Vhagar Staking Pool</h1>
-        <p className="text-light text-center pb-4">Vhagar on Solana Staking Pool</p>
+        <h1 className={`${styles.cont} ${styles.title}`}>Vhagar Reward Pool</h1>
+        <p className={`text-light text-center ${styles.subtitle}`}>Vhagar on Solana Staking Pool</p>
         <div className={styles.content}>
           <div className={styles.block}>
             <div className={styles.totstake}>
