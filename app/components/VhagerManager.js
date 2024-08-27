@@ -106,12 +106,6 @@ export default function VhagerManager({ setUserInfo, setError, setResult }) {
   }, [program, wallet.connected, wallet.publicKey, setUserInfo, setError]);
 
   useEffect(() => {
-    if (program && wallet.connected) {
-      getUserInfo();
-    }
-  }, [program, wallet.connected, getUserInfo]);
-
-  useEffect(() => {
     window.getUserInfo = getUserInfo;
     return () => {
       delete window.getUserInfo;

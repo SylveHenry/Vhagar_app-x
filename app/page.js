@@ -4,12 +4,26 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
 import VhagerManager from "./components/VhagerManager";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
+
+  useEffect(() => {
+    // Load user info from localStorage on component mount
+    const savedUserInfo = localStorage.getItem('userInfo');
+    if (savedUserInfo) {
+      setUserInfo(JSON.parse(savedUserInfo));
+    }
+  }, []);
+
+  const handleSetUserInfo = (info) => {
+    setUserInfo(info);
+    // Save user info to localStorage whenever it's updated
+    localStorage.setItem('userInfo', JSON.stringify(info));
+  };
 
   return (
     <>
@@ -51,12 +65,12 @@ export default function Home() {
                 Update Info
               </button>
             </div>
-            <div className="p-4">
+            <div className={`p-4 ${styles.stakingInfoContainer}`}>
               {userInfo ? (
-                <div className={styles.info}>
+                <div className={styles.infoGrid}>
                   {userInfo.map((lock, index) => (
-                    <div key={index}>
-                      <p><strong>Tag:</strong> {lock.tag}</p>
+                    <div key={index} className={styles.infoBox}>
+                      <h3 className={styles.infoBoxTitle}>{lock.tag}</h3>
                       <p><strong>Locked Amount:</strong> {lock.lockedAmount}</p>
                       <p><strong>Locked Reward:</strong> {lock.lockedReward}</p>
                       <p><strong>Unlock Time:</strong> {lock.unlockTime}</p>
@@ -69,7 +83,7 @@ export default function Home() {
               )}
             </div>
           </div>
-          <VhagerManager setUserInfo={setUserInfo} setError={setError} setResult={setResult} />
+          <VhagerManager setUserInfo={handleSetUserInfo} setError={setError} setResult={setResult} />
           <div className={styles.displayArea}>
             {error && <p className="text-danger">{error}</p>}
             {result && <p className="text-success">{result}</p>}

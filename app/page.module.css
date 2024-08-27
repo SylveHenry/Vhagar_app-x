@@ -225,14 +225,14 @@
 .walletButton {
   background: linear-gradient(to right, #5ee616, #15b8a3) !important;
   color: #050c24 !important;
-  border: 1px solid white !important;
+  border: 3px solid #5ee616 !important;
   transition: all 0.3s ease !important;
 }
 
 .walletButton:hover {
   background: #050c24 !important;
   color: white !important;
-  border: 2px solid #5ee616 !important;
+  border: 3px solid #5ee616 !important;
 }
 
 .displayArea {
@@ -242,13 +242,57 @@
   padding: 20px;
   margin-top: 20px;
   color: white;
+  max-height: 200px;
+  overflow-y: auto;
+  word-wrap: break-word;
+}
+
+.stakingInfoContainer {
+  background-color: rgba(10, 25, 73, 0.8);
+  border: 2px solid #63b560;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.infoBox {
+  background: linear-gradient(145deg, #2a3f6f, #1c2a4a);
+  border: 2px solid #63b560;
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.infoBox:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.infoBoxTitle {
+  color: #5ee616;
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.infoBox p {
+  margin-bottom: 10px;
+}
+
+.infoBox strong {
+  color: #15b8a3;
 }
 
 @media screen and (max-width: 767px) {
   .contai {
     margin-top: 139px;
-    display: flex;
-    flex-direction: column;
     padding: 20px;
   }
   .bloco{
@@ -260,14 +304,10 @@
     background-color: #0a194970;
   }
   .content {
-    flex: 1;
-    background-color: #0a194970;
-    box-shadow: inset;
     padding: 10px;
     padding-bottom: 20px;
   }
   .block{
-    color: white;
     margin: 2px;
     border: none;
     display: block;
@@ -308,19 +348,17 @@
     text-align: center;
     max-width: 100%;
   }
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1190px) {
   .contai {
     margin-top: 139px;
-    display: flex;
-    flex-direction: column;
     padding: 20px;
   }
   .content {
-    flex: 1;
-    background-color: #0a194970;
-    box-shadow: inset;
     padding: 10px;
     padding-bottom: 20px;
   }
@@ -363,5 +401,8 @@
   }
   .noteText {
     text-align: left;
+  }
+  .infoGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
