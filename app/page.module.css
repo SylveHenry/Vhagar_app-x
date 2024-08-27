@@ -25,14 +25,15 @@
   box-shadow: inset;
   padding: 30px;
   padding-bottom: 60px;
-  
 }
+
 .totstake{
   display: flex;
   justify-content: space-between;
   background-color: #4e914c;
   padding: 10px;
 }
+
 .info {
   background-color: #4e914c;
   color: white;
@@ -52,18 +53,18 @@
   border: 2px solid #63b560;
   padding: 20px;
 }
+
 .bloco{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   padding: 30px;
-justify-content: center;
-align-items: center;
-  
+  justify-content: center;
+  align-items: center;
 }
-.blocli{
-list-style-type: none;
-padding-bottom: 20px;
 
+.blocli{
+  list-style-type: none;
+  padding-bottom: 20px;
 }
 
 .column {
@@ -81,6 +82,7 @@ padding-bottom: 20px;
   border-radius: 10px;
   margin: 10px;
 }
+
 .form-select {
   background-color: #63b560 !important;
 }
@@ -107,6 +109,44 @@ padding-bottom: 20px;
   text-decoration: none;
   color: white;
 }
+
+/* Updated styles for the Update Info button */
+.updateInfoButton {
+  background: linear-gradient(to right, #5ee616, #15b8a3);
+  border-radius: 25px;
+  color: #050c24;
+  border: 1px solid white;
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.updateInfoButton:hover {
+  background: #050c24;
+  color: white;
+  border: 2px solid #5ee616;
+}
+
+/* New styles for the Execute buttons */
+.executeButton {
+  background: linear-gradient(to right, #5ee616, #15b8a3);
+  border-radius: 5px;
+  color: #050c24;
+  border: 1px solid white;
+  padding: 10px 20px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.executeButton:hover {
+  background: #050c24;
+  color: white;
+  border: 2px solid #5ee616;
+}
+
 /* responsiveness */
 @media screen and (max-width: 800px) {
   .contai {
@@ -119,10 +159,10 @@ padding-bottom: 20px;
     display: none;
   }
   .totstake{
-  display: block;
-  padding: 10px;
-  background-color: #0a194970;
-}
+    display: block;
+    padding: 10px;
+    background-color: #0a194970;
+  }
   .content {
     flex: 1;
     background-color: #0a194970;
@@ -142,19 +182,16 @@ padding-bottom: 20px;
     padding: 15px;
     width: 100%;
   }
-
   .firstblock {
     margin: auto 10px;
     color: white;
     background-color: #63b560;
   }
-
   .column {
     display: grid;
     grid-template-columns: 1fr;
     padding: 40px 10px;
   }
-
   .token {
     display: flex;
     justify-content: space-between;
@@ -163,12 +200,10 @@ padding-bottom: 20px;
     padding-left: 10px;
     padding-right: 10px;
   }
-
   .stakinfo {
     padding-top: 10px;
     padding-left: 13px;
   }
-
 }
 
 @media (min-width: 800px) and (max-width: 1190px) {
@@ -178,7 +213,6 @@ padding-bottom: 20px;
     flex-direction: column;
     padding: 20px;
   }
-
   .content {
     flex: 1;
     background-color: #0a194970;
@@ -186,26 +220,22 @@ padding-bottom: 20px;
     padding: 10px;
     padding-bottom: 20px;
   }
-
   .info {
     background-color: #4e914c;
     color: white;
     padding: 20px;
     width: 60%;
   }
-
   .firstblock {
     margin: auto 10px;
     color: white;
     background-color: #63b560;
   }
-
   .column {
     display: grid;
     grid-template-columns: 50% 50%;
     padding: 40px 10px;
   }
-
   .token {
     display: flex;
     justify-content: space-between;
@@ -214,10 +244,8 @@ padding-bottom: 20px;
     padding-left: 10px;
     padding-right: 10px;
   }
-
   .stakinfo {
     padding-top: 10px;
     padding-left: 13px;
   }
-
 }

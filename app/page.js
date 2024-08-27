@@ -9,44 +9,34 @@ export default function Home() {
         <h1 className={styles.cont} >Vhagar Staking Pool</h1>
         <p className="text-light text-center pb-4">Vhagar on Solana Staking Pool</p>
         <div className={styles.content}>
-      <div className={styles.block}>
-        <div className={styles.totstake}><div>Total Staked: 80 000 000 VGR</div>
-        <div>
-          Total Claimable Reward: 30 000 000 VGR
-        </div>
-        </div>
-        <div className={styles.bloco}>
-        <li className={styles.blocli}>Tier</li>
-          <li className={styles.blocli}>Bronze</li>
-          <li className={styles.blocli}>Silver</li>
-          <li className={styles.blocli}>Gold</li>
-          <li className={styles.blocli}>Diamond</li>
-          <li className={styles.blocli}>Lock Period</li>
-          <li className={styles.blocli}>15 Days</li>
-          <li className={styles.blocli}>30 Days</li>
-          <li className={styles.blocli}>60 Days</li>
-          <li className={styles.blocli}>120 Days</li>
-          <li className={styles.blocli}>Reward Percentage</li>
-          <li className={styles.blocli}>15.77%</li>
-          <li className={styles.blocli}>30.45%</li>
-          <li className={styles.blocli}>56.76%</li>
-          <li className={styles.blocli}>10.51%</li>
-          
+          <div className={styles.block}>
+            <div className={styles.totstake}>
+              <div>Total Staked: 80 000 000 VGR</div>
+              <div>Total Claimable Reward: 30 000 000 VGR</div>
+            </div>
+            <div className={styles.bloco}>
+              <li className={styles.blocli}>Tier</li>
+              <li className={styles.blocli}>Bronze</li>
+              <li className={styles.blocli}>Silver</li>
+              <li className={styles.blocli}>Gold</li>
+              <li className={styles.blocli}>Diamond</li>
+              <li className={styles.blocli}>Lock Period</li>
+              <li className={styles.blocli}>15 Days</li>
+              <li className={styles.blocli}>30 Days</li>
+              <li className={styles.blocli}>60 Days</li>
+              <li className={styles.blocli}>120 Days</li>
+              <li className={styles.blocli}>Reward Percentage</li>
+              <li className={styles.blocli}>15.77%</li>
+              <li className={styles.blocli}>30.45%</li>
+              <li className={styles.blocli}>56.76%</li>
+              <li className={styles.blocli}>10.51%</li>
+            </div>
           </div>
-      </div>
           <div className={styles.firstblock}>
             <div className={styles.stakinfo}>
               <h2 className="text-light">Your staking info</h2>
-              <button className="btn fw-bold">
-                <h5
-                  className="text-light p-3"
-                  style={{
-                    backgroundColor: "#4e914c",
-                    border: "1px solid white",
-                  }}
-                >
-                  Update Info
-                </h5>
+              <button className={styles.updateInfoButton}>
+                Update Info
               </button>
             </div>
             <div className="p-4">
@@ -65,9 +55,8 @@ export default function Home() {
                 <p className="p-3" style={{ border: "1px solid #63b560" }}>
                   amount
                 </p>
-
                 <select
-                  class="form-select form-select-lg mb-3 text-light"
+                  className="form-select form-select-lg mb-3 text-light"
                   aria-label="Large select example"
                   style={{ backgroundColor: "#0a194970" }}
                 >
@@ -76,32 +65,16 @@ export default function Home() {
                   <option value="2">Two</option>
                   <option value="3">Three</option>
                 </select>
-                {/* <select
-                  class="form-select form-select-lg mb-3 text-light"
-                  aria-label="Large select example"
-                  style={{ backgroundColor: "#0a194970" }}
-                >
-                  <option selected>Select Slot</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select> */}
-                <Link className={styles.link} href="/">
-                  <h4
-                    className="p-3 border border-light text-center"
-                    style={{ backgroundColor: "#63b560" }}
-                  >
-                    Execute
-                  </h4>
-                </Link>
+                <button className={styles.executeButton}>
+                  Execute
+                </button>
               </div>
             </div>
             <div className={styles.cols}>
               <div className="p-3">
                 <h3 className="text-light pb-3">AUTOCOMPOUND</h3>
-
                 <select
-                  class="form-select form-select-lg mb-3 text-light"
+                  className="form-select form-select-lg mb-3 text-light"
                   aria-label="Large select example"
                   style={{ backgroundColor: "#0a194970" }}
                 >
@@ -110,59 +83,29 @@ export default function Home() {
                   <option value="2">Two</option>
                   <option value="3">Three</option>
                 </select>
-                {/* <select
-                  class="form-select form-select-lg mb-3 text-light"
-                  aria-label="Large select example"
-                  style={{ backgroundColor: "#0a194970" }}
-                >
-                  <option selected>Select Slot</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select> */}
-                <h4
-                  className="p-3 border border-light text-center"
-                  style={{ backgroundColor: "#63b560" }}
-                >
+                <button className={styles.executeButton}>
                   Execute
-                </h4>
+                </button>
               </div>
             </div>
             <div className={styles.cols}>
               <div className="p-3">
                 <h3 className="text-light pb-3">UNSTAKE</h3>
-
-        
-                  <select
-                    class="form-select form-select-lg mb-3 text-light"
-                    aria-label="Large select example"
-                    style={{ backgroundColor: "#0a194970" }}
-                  >
-                    <option selected>Select Tier</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                
-                {/* <select
-                  class="form-select form-select-lg mb-3 text-light"
+                <select
+                  className="form-select form-select-lg mb-3 text-light"
                   aria-label="Large select example"
                   style={{ backgroundColor: "#0a194970" }}
                 >
-                  <option selected>Select Slot</option>
+                  <option selected>Select Tier</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>
-                </select> */}
-                <h4
-                  className="p-3 border border-light text-center"
-                  style={{ backgroundColor: "#63b560" }}
-                >
+                </select>
+                <button className={styles.executeButton}>
                   Execute
-                </h4>
+                </button>
               </div>
             </div>
-
           </div>
           <div className="d-flex justify-content-center">
             <p className="text-light p-3" style={{ width: "85%" }}>
