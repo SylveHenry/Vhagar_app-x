@@ -118,10 +118,6 @@ export default function Home() {
             </button>
           </div>
           <VhagerManager setUserInfo={handleSetUserInfo} setError={setError} setResult={setResult} />
-          <div className={styles.displayArea}>
-            {error && <p className="text-danger">{error}</p>}
-            {result && <p className="text-success">{result}</p>}
-          </div>
           <div className={`${styles.noteContainer} d-flex flex-column flex-md-row align-items-center justify-content-center`}>
             <div className={`${styles.exclamationImageContainer} d-none d-md-block`}>
               <Image 

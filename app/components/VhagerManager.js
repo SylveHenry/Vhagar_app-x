@@ -24,11 +24,13 @@ const lockTagMap = {
   'diamond': { diamond: {} }
 };
 
-export default function VhagerManager({ setUserInfo, setError, setResult }) {
+export default function VhagerManager({ setUserInfo }) {
   const wallet = useWallet();
   const [program, setProgram] = useState(null);
   const [loading, setLoading] = useState(false);
   const [inputs, setInputs] = useState({});
+  const [error, setError] = useState(null);
+  const [result, setResult] = useState(null);
 
   useEffect(() => {
     if (wallet.connected) {
@@ -103,7 +105,7 @@ export default function VhagerManager({ setUserInfo, setError, setResult }) {
     } finally {
       setLoading(false);
     }
-  }, [program, wallet.connected, wallet.publicKey, setUserInfo, setError]);
+  }, [program, wallet.connected, wallet.publicKey, setUserInfo]);
 
   useEffect(() => {
     window.getUserInfo = getUserInfo;
@@ -208,48 +210,54 @@ export default function VhagerManager({ setUserInfo, setError, setResult }) {
   };
 
   return (
-    <div className={styles.column}>
-      {Object.entries(functions).map(([name, { func, inputs }]) => (
-        <div key={name} className={styles.cols}>
-          <div className="p-3">
-            <h3 className="text-light pb-3">{name.toUpperCase()}</h3>
-            {inputs.map((input) => (
-              <div key={input} className="mb-3">
-                {input === 'lockTag' ? (
-                  <select
-                    className={`form-select form-select-lg mb-3 text-light ${styles.customSelect}`}
-                    onChange={(e) => handleInputChange(name, input, e.target.value)}
-                  >
-                    <option value="">Select Tier</option>
-                    <option value="bronze">Bronze</option>
-                    <option value="silver">Silver</option>
-                    <option value="gold">Gold</option>
-                    <option value="diamond">Diamond</option>
-                  </select>
-                ) : (
-                  <input
-                    type="number"
-                    step="0.000000001"
-                    placeholder={`Enter ${input}`}
-                    className="p-3 w-100"
-                    style={{ border: "1px solid #63b560" }}
-                    onChange={(e) => handleInputChange(name, input, e.target.value)}
-                  />
-                )}
-              </div>
-            ))}
-            <button
-              className={styles.executeButton}
-              onClick={() => executeFunction(func, name)}
-              disabled={loading || !wallet.connected}
-            >
-              Execute
-            </button>
+    <>
+      <div className={styles.column}>
+        {Object.entries(functions).map(([name, { func, inputs }]) => (
+          <div key={name} className={styles.cols}>
+            <div className="p-3">
+              <h3 className="text-light pb-3">{name.toUpperCase()}</h3>
+              {inputs.map((input) => (
+                <div key={input} className="mb-3">
+                  {input === 'lockTag' ? (
+                    <select
+                      className={`form-select form-select-lg mb-3 text-light ${styles.customSelect}`}
+                      onChange={(e) => handleInputChange(name, input, e.target.value)}
+                    >
+                      <option value="">Select Tier</option>
+                      <option value="bronze">Bronze</option>
+                      <option value="silver">Silver</option>
+                      <option value="gold">Gold</option>
+                      <option value="diamond">Diamond</option>
+                    </select>
+                  ) : (
+                    <input
+                      type="number"
+                      step="0.000000001"
+                      placeholder={`Enter ${input}`}
+                      className="p-3 w-100"
+                      style={{ border: "1px solid #63b560" }}
+                      onChange={(e) => handleInputChange(name, input, e.target.value)}
+                    />
+                  )}
+                </div>
+              ))}
+              <button
+                className={styles.executeButton}
+                onClick={() => executeFunction(func, name)}
+                disabled={loading || !wallet.connected}
+              >
+                Execute
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
-      {loading && <p className="text-light">Loading...</p>}
-    </div>
+        ))}
+      </div>
+      <div className={styles.displayArea}>
+        {loading && <p className="text-info">Loading...</p>}
+        {error && <p className="text-danger">{error}</p>}
+        {result && <p className="text-success">{result}</p>}
+      </div>
+    </>
   );
 }
 
