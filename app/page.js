@@ -5,11 +5,15 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import VhagerManager from "./components/VhagerManager";
 import { useState, useEffect } from "react";
+import { useWallet } from '@solana/wallet-adapter-react';
 
 export default function Home() {
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
+  const [totalStaked, setTotalStaked] = useState(0);
+  const [totalClaimable, setTotalClaimable] = useState(0);
+  const wallet = useWallet();
 
   useEffect(() => {
     // Load user info from localStorage on component mount
@@ -19,10 +23,33 @@ export default function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    if (wallet.connected) {
+      animateValue(setTotalStaked, 0, 80000000, 2000);
+      animateValue(setTotalClaimable, 0, 30000000, 2000);
+    } else {
+      setTotalStaked(0);
+      setTotalClaimable(0);
+    }
+  }, [wallet.connected]);
+
   const handleSetUserInfo = (info) => {
     setUserInfo(info);
     // Save user info to localStorage whenever it's updated
     localStorage.setItem('userInfo', JSON.stringify(info));
+  };
+
+  const animateValue = (setter, start, end, duration) => {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      setter(Math.floor(progress * (end - start) + start));
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
   };
 
   return (
@@ -33,8 +60,8 @@ export default function Home() {
         <div className={styles.content}>
           <div className={styles.block}>
             <div className={styles.totstake}>
-              <div>Total Staked: 80 000 000 VGR</div>
-              <div>Total Claimable Reward: 30 000 000 VGR</div>
+              <div>Total Staked: {totalStaked.toLocaleString()} VGR</div>
+              <div>Total Claimable Reward: {totalClaimable.toLocaleString()} VGR</div>
             </div>
             <div className={styles.bloco}>
               <li className={styles.blocli}>Tier</li>
@@ -57,7 +84,7 @@ export default function Home() {
           <div className={styles.firstblock}>
             <div className={styles.stakinfo}>
               <h2 className="text-light">Your staking info</h2>
-              <button className={styles.updateInfoButton} onClick={() => {
+              <button className={`${styles.updateInfoButton} ${styles.updateInfoButtonDesktop}`} onClick={() => {
                 if (window.getUserInfo) {
                   window.getUserInfo();
                 }
@@ -82,6 +109,13 @@ export default function Home() {
                 <p className={styles.info}>Connect your wallet to view your staking info.</p>
               )}
             </div>
+            <button className={`${styles.updateInfoButton} ${styles.updateInfoButtonMobile}`} onClick={() => {
+              if (window.getUserInfo) {
+                window.getUserInfo();
+              }
+            }}>
+              Update Info
+            </button>
           </div>
           <VhagerManager setUserInfo={handleSetUserInfo} setError={setError} setResult={setResult} />
           <div className={styles.displayArea}>

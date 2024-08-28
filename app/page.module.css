@@ -14,7 +14,10 @@
 
 .cont{
   font-family: 'BeldgoRegular', sans-serif;
-  color: #4e914c;
+  background: linear-gradient(to right, #5ee616, #15b8a3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   justify-content: center;
   display: flex;
   text-align: center;
@@ -32,7 +35,18 @@
   display: flex;
   justify-content: space-between;
   background-color: #4e914c;
-  padding: 10px;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.totstake:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
 }
 
 .info {
@@ -125,6 +139,10 @@
   background: #050c24;
   color: white;
   border: 2px solid #5ee616;
+}
+
+.updateInfoButtonMobile {
+  display: none;
 }
 
 .customSelect {
@@ -339,6 +357,8 @@
   .stakinfo {
     padding-top: 10px;
     padding-left: 13px;
+    flex-direction: column;
+    align-items: flex-start;
   }
   .noteContainer {
     flex-direction: column;
@@ -350,6 +370,14 @@
   }
   .infoGrid {
     grid-template-columns: 1fr;
+  }
+  .updateInfoButtonDesktop {
+    display: none;
+  }
+  .updateInfoButtonMobile {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
   }
 }
 
