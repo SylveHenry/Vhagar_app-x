@@ -147,6 +147,33 @@ export default function VhagerManager({ setUserInfo }) {
       },
       inputs: ['amount', 'lockTag'],
     },
+    autocompound: {
+      func: async () => {
+        const { lockTag } = inputs.autocompound || {};
+        if (!lockTag) {
+          throw new Error('Please provide the required input: lockTag');
+        }
+        const [userLockInfoKey] = await PublicKey.findProgramAddress(
+          [Buffer.from('user_lock_info'), wallet.publicKey.toBuffer(), stakingPoolKey.toBuffer()],
+          program.programId
+        );
+        
+        const lockTagEnum = lockTagMap[lockTag.toLowerCase()];
+        if (!lockTagEnum) {
+          throw new Error('Invalid lock tag. Please use Bronze, Silver, Gold, or Diamond.');
+        }
+
+        const tx = await program.methods.autocompound(lockTagEnum, 0)
+          .accounts({
+            stakingPool: stakingPoolKey,
+            user: wallet.publicKey,
+            userLockInfo: userLockInfoKey,
+          }).rpc();
+
+        return `Autocompounded ${lockTag} lock. Transaction: ${tx}`;
+      },
+      inputs: ['lockTag'],
+    },
     unstake: {
       func: async () => {
         const { lockTag } = inputs.unstake || {};
@@ -177,33 +204,6 @@ export default function VhagerManager({ setUserInfo }) {
           }).rpc();
 
         return `Unstaked from ${lockTag} lock. Transaction: ${tx}`;
-      },
-      inputs: ['lockTag'],
-    },
-    autocompound: {
-      func: async () => {
-        const { lockTag } = inputs.autocompound || {};
-        if (!lockTag) {
-          throw new Error('Please provide the required input: lockTag');
-        }
-        const [userLockInfoKey] = await PublicKey.findProgramAddress(
-          [Buffer.from('user_lock_info'), wallet.publicKey.toBuffer(), stakingPoolKey.toBuffer()],
-          program.programId
-        );
-        
-        const lockTagEnum = lockTagMap[lockTag.toLowerCase()];
-        if (!lockTagEnum) {
-          throw new Error('Invalid lock tag. Please use Bronze, Silver, Gold, or Diamond.');
-        }
-
-        const tx = await program.methods.autocompound(lockTagEnum, 0)
-          .accounts({
-            stakingPool: stakingPoolKey,
-            user: wallet.publicKey,
-            userLockInfo: userLockInfoKey,
-          }).rpc();
-
-        return `Autocompounded ${lockTag} lock. Transaction: ${tx}`;
       },
       inputs: ['lockTag'],
     },
