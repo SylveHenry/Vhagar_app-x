@@ -34,13 +34,19 @@ const Footer = () => {
           </h4>
           <ul className="list-unstyled">
             <li className="coll">
-              <a href="#about">About</a>
+              <a href="https://vhagar.finance/#about" 
+              target="_blank"
+              rel="noopener noreferrer">About</a>
             </li>
             <li className="coll">
-              <a href="#tokenomics">Tokenomics</a>
+              <a href="https://vhagar.finance/#tokenomics" 
+              target="_blank"
+              rel="noopener noreferrer">Tokenomics</a>
             </li>
             <li className="coll">
-              <a href="#roadmap-container">RoadMap</a>
+              <a href="https://vhagar.finance/#roadmap-container" 
+              target="_blank"
+              rel="noopener noreferrer">RoadMap</a>
             </li>
           </ul>
         </div>

@@ -53,7 +53,7 @@ const Navbar = () => {
   return (
     <nav className={navbarClass}>
       <div className="container-fluid p-2">
-        <a className="navbar-brand text-light ps-2" href="#">
+        <a className="navbar-brand text-light ps-2" href="https://vhagar.finance/">
           <Image src={logoSrc} width={128} height={77} alt="Logo" />
         </a>
         <button
@@ -73,22 +73,30 @@ const Navbar = () => {
         >
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link" href="#about">
+              <a className="nav-link" href="https://vhagar.finance/#about" 
+                target="_blank"
+                rel="noopener noreferrer">
                 ABOUT
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#tokenomics">
+              <a className="nav-link" href="https://vhagar.finance/#tokenomics" 
+                target="_blank"
+                rel="noopener noreferrer">
                 TOKENOMICS
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#roadmap-container">
+              <a className="nav-link" href="https://vhagar.finance/#roadmap-container" 
+                target="_blank"
+                rel="noopener noreferrer">
                 ROADMAP
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#network">
+              <a className="nav-link" href="https://vhagar.finance/#network" 
+                target="_blank"
+                rel="noopener noreferrer">
                 COMMUNITY
               </a>
             </li>

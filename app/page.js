@@ -61,20 +61,20 @@ export default function Home() {
           <div className={styles.block}>
             <div className={styles.totstake}>
               <div>Total Staked: {totalStaked.toLocaleString()} VGR</div>
-              <div>Total Claimable Reward: {totalClaimable.toLocaleString()} VGR</div>
+              <div>Total Claimable: {totalClaimable.toLocaleString()} VGR</div>
             </div>
             <div className={styles.bloco}>
-              <li className={styles.blocli}>Tier</li>
-              <li className={styles.blocli}>Bronze</li>
-              <li className={styles.blocli}>Silver</li>
-              <li className={styles.blocli}>Gold</li>
-              <li className={styles.blocli}>Diamond</li>
-              <li className={styles.blocli}>Lock Period</li>
+              <li className={`${styles.blocli} ${styles.headerItem}`}>Tier</li>
+              <li className={`${styles.blocli} ${styles.tierItem}`}>Bronze</li>
+              <li className={`${styles.blocli} ${styles.tierItem}`}>Silver</li>
+              <li className={`${styles.blocli} ${styles.tierItem}`}>Gold</li>
+              <li className={`${styles.blocli} ${styles.tierItem}`}>Diamond</li>
+              <li className={`${styles.blocli} ${styles.headerItem}`}>Lock Period</li>
               <li className={styles.blocli}>15 Days</li>
               <li className={styles.blocli}>30 Days</li>
               <li className={styles.blocli}>60 Days</li>
               <li className={styles.blocli}>120 Days</li>
-              <li className={styles.blocli}>Reward Percentage</li>
+              <li className={`${styles.blocli} ${styles.headerItem}`}>Reward Percentage</li>
               <li className={styles.blocli}>15.77%</li>
               <li className={styles.blocli}>30.45%</li>
               <li className={styles.blocli}>56.76%</li>
@@ -83,7 +83,7 @@ export default function Home() {
           </div>
           <div className={styles.firstblock}>
             <div className={styles.stakinfo}>
-              <h2 className="text-light">Your staking info</h2>
+              <h2 className="text-light">Your Staking Info</h2>
               <button className={`${styles.updateInfoButton} ${styles.updateInfoButtonDesktop}`} onClick={() => {
                 if (window.getUserInfo) {
                   window.getUserInfo();

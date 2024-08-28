@@ -82,6 +82,16 @@
   padding-bottom: 20px;
 }
 
+.headerItem {
+  font-weight: bold;
+  color: #15b8a3;
+}
+
+.tierItem {
+  font-weight: bold;
+  color: #5ee616;
+}
+
 .column {
   display: grid;
   grid-template-columns: 33% 33% 33%;
