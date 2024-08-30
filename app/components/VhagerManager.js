@@ -416,7 +416,7 @@ export default function VhagerManager({ setUserInfo }) {
                       <option value="bronze">Bronze</option>
                       <option value="silver">Silver</option>
                       <option value="gold">Gold</option>
-                      {/* <option value="diamond">Diamond</option> */}
+                      <option value="diamond">Diamond</option>
                     </select>
                   ) : (
                     <input

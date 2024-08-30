@@ -73,12 +73,12 @@ export default function Home() {
               <li className={styles.blocli}>15 Days</li>
               <li className={styles.blocli}>30 Days</li>
               <li className={styles.blocli}>60 Days</li>
-              <li className={styles.blocli}>-- Days</li>
+              <li className={styles.blocli}>120 Days</li>
               <li className={`${styles.blocli} ${styles.headerItem}`}>Reward Percentage</li>
               <li className={styles.blocli}>10.00 %</li>
               <li className={styles.blocli}>30.00 %</li>
               <li className={styles.blocli}>90.00 %</li>
-              <li className={styles.blocli}>-- . -- %</li>
+              <li className={styles.blocli}>270.00 %</li>
             </div>
           </div>
           <div className={styles.firstblock}>
