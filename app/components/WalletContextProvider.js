@@ -3,9 +3,9 @@
 import { useMemo } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
+import * as wallets from '@solana/wallet-adapter-wallets';
 
 import '@solana/wallet-adapter-react-ui/styles.css';
 
@@ -13,16 +13,32 @@ export default function WalletContextProvider({ children }) {
   const network = WalletAdapterNetwork.Devnet;
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
-  const wallets = useMemo(
+  const walletOptions = useMemo(
     () => [
-      new PhantomWalletAdapter(),
+      new wallets.PhantomWalletAdapter(),
+      new wallets.SolflareWalletAdapter(),
+      new wallets.WalletConnectWalletAdapter(),
+      new wallets.AlphaWalletAdapter(),
+      new wallets.BitgetWalletAdapter(),
+      new wallets.BitpieWalletAdapter(),
+      new wallets.CloverWalletAdapter(),
+      new wallets.Coin98WalletAdapter(),
+      new wallets.CoinhubWalletAdapter(),
+      new wallets.AvanaWalletAdapter(),
+      new wallets.FractalWalletAdapter(),
+      new wallets.HuobiWalletAdapter(),
+      new wallets.HyperPayWalletAdapter(),
+      new wallets.KeystoneWalletAdapter(),
+      new wallets.KrystalWalletAdapter(),
+      new wallets.LedgerWalletAdapter(),
+      new wallets.MathWalletAdapter(),
     ],
     [network]
   );
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
+      <WalletProvider wallets={walletOptions} autoConnect>
         <WalletModalProvider>
           {children}
         </WalletModalProvider>
