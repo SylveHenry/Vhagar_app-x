@@ -5,17 +5,25 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import styles from '../page.module.css';
 import { Connection, PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
-import idl from '@/idl/idl.json';
-import { getAssociatedTokenAddress, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { getAssociatedTokenAddress } from '@solana/spl-token';
 import axios from 'axios';
+import idl from '@/idl/idl.json';
 
 // Constants
 const programId = new PublicKey('DybDiU1cRQMPJQLEE5xbtMZg1cihaW7g9aPvqyDSAwwg');
 const stakingPoolKey = new PublicKey('9QmBeWNKpzzSFZisGf8c3ay6ttnh7N5LFdUsWaGmbpgY');
 const stakeAuthority = new PublicKey('BfwdtsDcLLWiTTL8WprXXDEZsZBNHHKcjiKZ8zhvTXgc');
 const tokenMint = new PublicKey('EwVMtR3qMpES8uskX4AFWSxLnRjGRLowaYzn6C4ZN48Y');
+const tokenProgramId = new PublicKey('TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb');
 const stakeVault = new PublicKey('DQPsctR9MT5MBgKhPQE8i8faM6CQU7HRtAn8o9fQ7nwG');
 const rewardVault = new PublicKey('DQPsctR9MT5MBgKhPQE8i8faM6CQU7HRtAn8o9fQ7nwG');
+
+const lockTagMap = {
+  'bronze': { bronze: {} },
+  'silver': { silver: {} },
+  'gold': { gold: {} },
+  'diamond': { diamond: {} }
+};
 
 // Helper functions
 function formatNumber(number, decimals = 9) {
@@ -121,6 +129,16 @@ export default function AdminPage() {
     }
   }, [wallet.connected]);
 
+  const handleInputChange = (name, field, value) => {
+    setInputs(prev => ({
+      ...prev,
+      [name]: {
+        ...prev[name],
+        [field]: value
+      }
+    }));
+  };
+
   const executeFunction = async (func, name) => {
     setLoading(true);
     setError(null);
@@ -134,37 +152,6 @@ export default function AdminPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleInputChange = (name, value) => {
-    setInputs(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const getRewardPercentage = async (lockTag) => {
-    const stakingPool = await program.account.stakingPool.fetch(stakingPoolKey);
-    let rewardPercentage;
-
-    switch (lockTag.toLowerCase()) {
-      case 'bronze':
-        rewardPercentage = stakingPool.bronzeRewardPercentage;
-        break;
-      case 'silver':
-        rewardPercentage = stakingPool.bronzeRewardPercentage.mul(new anchor.BN(3));
-        break;
-      case 'gold':
-        rewardPercentage = stakingPool.bronzeRewardPercentage.mul(new anchor.BN(9));
-        break;
-      case 'diamond':
-        rewardPercentage = stakingPool.bronzeRewardPercentage.mul(new anchor.BN(27));
-        break;
-      default:
-        throw new Error('Invalid lock tag');
-    }
-
-    return rewardPercentage.toNumber();
   };
 
   const formatResult = useCallback((result, functionName) => {
@@ -263,21 +250,44 @@ export default function AdminPage() {
     }
   };
 
+  const getRewardPercentage = async (lockTag) => {
+    const stakingPool = await program.account.stakingPool.fetch(stakingPoolKey);
+    let rewardPercentage;
+
+    switch (lockTag.toLowerCase()) {
+      case 'bronze':
+        rewardPercentage = stakingPool.bronzeRewardPercentage;
+        break;
+      case 'silver':
+        rewardPercentage = stakingPool.bronzeRewardPercentage.mul(new anchor.BN(3));
+        break;
+      case 'gold':
+        rewardPercentage = stakingPool.bronzeRewardPercentage.mul(new anchor.BN(9));
+        break;
+      case 'diamond':
+        rewardPercentage = stakingPool.bronzeRewardPercentage.mul(new anchor.BN(27));
+        break;
+      default:
+        throw new Error('Invalid lock tag');
+    }
+
+    return rewardPercentage.toNumber();
+  };
+
   const functions = {
     viewFunctions: {
       getApy: () => program.methods.getApy().accounts({ stakingPool: stakingPoolKey }).view(),
       getStakeInfo: () => program.methods.getStakeInfo().accounts({ stakingPool: stakingPoolKey }).view(),
       getUserInfo: async () => {
-        const userAddress = new PublicKey(inputs.userAddress || wallet.publicKey);
         const [userLockInfoKey] = PublicKey.findProgramAddressSync(
-          [Buffer.from('user_lock_info'), userAddress.toBuffer(), stakingPoolKey.toBuffer()],
+          [Buffer.from('user_lock_info'), wallet.publicKey.toBuffer(), stakingPoolKey.toBuffer()],
           program.programId
         );
         try {
           const result = await program.methods.getUserInfo().accounts({
             stakingPool: stakingPoolKey,
             userLockInfo: userLockInfoKey,
-            user: userAddress,
+            user: wallet.publicKey,
           }).view();
 
           const formattedInfo = result.locks.flatMap((tagLocks, tagIndex) => 
@@ -305,76 +315,113 @@ export default function AdminPage() {
       getProgramPauseStatus: () => program.methods.getProgramPauseStatus().accounts({ stakingPool: stakingPoolKey }).view(),
       getStakingPauseStatus: () => program.methods.getStakingPauseStatus().accounts({ stakingPool: stakingPoolKey }).view(),
     },
-    userFunctions: {
+    executeFunctions: {
       stake: async () => {
-        const amount = new anchor.BN(parseFloat(inputs.stakeAmount) * 1e9);
-        const lockTag = inputs.stakeLockTag;
-        const slot = parseInt(inputs.stakeSlot);
-
+        const { amount, lockTag, slot } = inputs.stake || {};
+        if (!amount || !lockTag || slot === undefined) {
+          throw new Error('Please provide all required inputs: amount, lockTag, and slot');
+        }
+        const lamports = new anchor.BN(parseFloat(amount) * 1e9);
         const [userLockInfoKey] = await PublicKey.findProgramAddress(
           [Buffer.from('user_lock_info'), wallet.publicKey.toBuffer(), stakingPoolKey.toBuffer()],
           program.programId
         );
-        const userTokenAccount = await getAssociatedTokenAddress(tokenMint, wallet.publicKey);
-
-        // Check if the user token account exists
-        const connection = program.provider.connection;
-        const accountInfo = await connection.getAccountInfo(userTokenAccount);
-        if (!accountInfo) {
-          throw new Error("User token account does not exist. Please initialize it first.");
+        const userTokenAccount = await getAssociatedTokenAddress(tokenMint, wallet.publicKey, false, tokenProgramId);
+        
+        const lockTagEnum = lockTagMap[lockTag.toLowerCase()];
+        if (!lockTagEnum) {
+          throw new Error('Invalid lock tag. Please use Bronze, Silver, Gold, or Diamond.');
         }
 
-        const tx = await program.methods.stake(amount, { [lockTag.toLowerCase()]: {} }, slot)
+        const tx = await program.methods.stake(lamports, lockTagEnum, slot)
           .accounts({
             stakingPool: stakingPoolKey,
             user: wallet.publicKey,
             userTokenAccount: userTokenAccount,
             stakeVault: stakeVault,
             userLockInfo: userLockInfoKey,
-            tokenProgram: TOKEN_PROGRAM_ID,
-            systemProgram: anchor.web3.SystemProgram.programId,
+            tokenProgram: tokenProgramId,
           }).rpc();
 
-        console.log('Stake transaction completed:', tx);
+        return `Staked ${amount} VGR with ${lockTag} lock in slot ${slot}. Transaction: ${tx}`;
+      },
+      autocompound: async () => {
+        const { lockTag, slot } = inputs.autocompound || {};
+        if (!lockTag || slot === undefined) {
+          throw new Error('Please provide all required inputs: lockTag and slot');
+        }
+        const [userLockInfoKey] = await PublicKey.findProgramAddress(
+          [Buffer.from('user_lock_info'), wallet.publicKey.toBuffer(), stakingPoolKey.toBuffer()],
+          program.programId
+        );
+        
+        const lockTagEnum = lockTagMap[lockTag.toLowerCase()];
+        if (!lockTagEnum) {
+          throw new Error('Invalid lock tag. Please use Bronze, Silver, Gold, or Diamond.');
+        }
+
+        // Fetch user lock info before autocompounding
+        const userLockInfoBefore = await program.account.userLockInfo.fetch(userLockInfoKey);
+        const lockInfoBefore = userLockInfoBefore.locks[Object.keys(lockTagMap).indexOf(lockTag.toLowerCase())][slot];
+
+        const tx = await program.methods.autocompound(lockTagEnum, slot)
+          .accounts({
+            stakingPool: stakingPoolKey,
+            user: wallet.publicKey,
+            userLockInfo: userLockInfoKey,
+          }).rpc();
+
+        console.log('Autocompound transaction completed:', tx);
+
+        // Fetch user lock info after autocompounding
+        const userLockInfoAfter = await program.account.userLockInfo.fetch(userLockInfoKey);
+        const newLockInfo = userLockInfoAfter.locks[Object.keys(lockTagMap).indexOf(lockTag.toLowerCase())][slot];
+
+        const currentTime = Math.floor(Date.now() / 1000);
+        const stakeDuration = currentTime - lockInfoBefore.lockStartTime.toNumber();
 
         // Prepare data for Google Form submission
-        const currentTime = Math.floor(Date.now() / 1000);
-        const rewardPercentage = await getRewardPercentage(lockTag);
         const formData = {
-          operation: 'Stake',
+          operation: 'Autocompound',
           userAddress: wallet.publicKey.toString(),
-          amountStaked: formatNumber(amount),
+          amountStaked: formatNumber(newLockInfo.lockedAmount),
           stakeTier: lockTag,
-          stakeDuration: 'N/A', // Not applicable for staking
-          rewardPercentage: `${(rewardPercentage / 100).toFixed(2)}%`,
-          stakeStartTime: formatTime(currentTime),
-          unlockTime: 'N/A', // We don't know the unlock time at this point
-          stakeEndTime: 'N/A', // Not applicable for staking
-          lockedRewardAmount: 'N/A', // We don't know the reward amount at this point
-          receivedRewardAmount: 'N/A', // Not applicable for staking
-          durationCompletionCheck: 'N/A' // Not applicable for staking
+          stakeDuration: formatDuration(stakeDuration),
+          rewardPercentage: `${(await getRewardPercentage(lockTag) / 100).toFixed(2)}%`,
+          stakeStartTime: formatTime(lockInfoBefore.lockStartTime.toNumber()),
+          unlockTime: formatTime(lockInfoBefore.unlockTime.toNumber()),
+          stakeEndTime: formatTime(currentTime),
+          lockedRewardAmount: formatNumber(lockInfoBefore.lockedReward),
+          receivedRewardAmount: formatNumber(lockInfoBefore.lockedReward),
+          durationCompletionCheck: 'Full' // Always 'Full' for autocompound
         };
 
         // Submit data to Google Form
         await submitToGoogleForm(formData);
 
-        return tx;
+        return `Autocompounded ${lockTag} lock in slot ${slot}. Transaction: ${tx}`;
       },
       unstake: async () => {
-        const lockTag = inputs.unstakeLockTag;
-        const slot = parseInt(inputs.unstakeSlot);
-
+        const { lockTag, slot } = inputs.unstake || {};
+        if (!lockTag || slot === undefined) {
+          throw new Error('Please provide all required inputs: lockTag and slot');
+        }
         const [userLockInfoKey] = await PublicKey.findProgramAddress(
           [Buffer.from('user_lock_info'), wallet.publicKey.toBuffer(), stakingPoolKey.toBuffer()],
           program.programId
         );
-        const userTokenAccount = await getAssociatedTokenAddress(tokenMint, wallet.publicKey);
+        const userTokenAccount = await getAssociatedTokenAddress(tokenMint, wallet.publicKey, false, tokenProgramId);
+        
+        const lockTagEnum = lockTagMap[lockTag.toLowerCase()];
+        if (!lockTagEnum) {
+          throw new Error('Invalid lock tag. Please use Bronze, Silver, Gold, or Diamond.');
+        }
 
         // Fetch user lock info before unstaking
         const userLockInfoBefore = await program.account.userLockInfo.fetch(userLockInfoKey);
-        const lockInfo = userLockInfoBefore.locks[Object.keys({ [lockTag.toLowerCase()]: {} })[0]][slot];
+        const lockInfo = userLockInfoBefore.locks[Object.keys(lockTagMap).indexOf(lockTag.toLowerCase())][slot];
 
-        const tx = await program.methods.unstake({ [lockTag.toLowerCase()]: {} }, slot)
+        const tx = await program.methods.unstake(lockTagEnum, slot)
           .accounts({
             stakingPool: stakingPoolKey,
             user: wallet.publicKey,
@@ -383,7 +430,7 @@ export default function AdminPage() {
             rewardVault: rewardVault,
             userLockInfo: userLockInfoKey,
             stakeAuthority: stakeAuthority,
-            tokenProgram: TOKEN_PROGRAM_ID,
+            tokenProgram: tokenProgramId,
           }).rpc();
 
         console.log('Unstake transaction completed:', tx);
@@ -403,6 +450,16 @@ export default function AdminPage() {
           receivedRewardAmount = 0;
         }
 
+        // Determine duration completion check
+        let durationCompletionCheck;
+        if (stakeDuration >= fullStakeDuration) {
+          durationCompletionCheck = 'Full';
+        } else if (stakeDuration >= halfStakeDuration) {
+          durationCompletionCheck = 'Half';
+        } else {
+          durationCompletionCheck = 'Less than half';
+        }
+
         // Prepare data for Google Form submission
         const formData = {
           operation: 'Unstake',
@@ -416,101 +473,100 @@ export default function AdminPage() {
           stakeEndTime: formatTime(currentTime),
           lockedRewardAmount: formatNumber(lockInfo.lockedReward),
           receivedRewardAmount: formatNumber(receivedRewardAmount),
-          durationCompletionCheck: stakeDuration >= fullStakeDuration ? 'Full' : (stakeDuration >= halfStakeDuration ? 'Half' : 'Less than half')
+          durationCompletionCheck: durationCompletionCheck
         };
 
         // Submit data to Google Form
         await submitToGoogleForm(formData);
 
-        return tx;
+        return `Unstaked from ${lockTag} lock in slot ${slot}. Transaction: ${tx}`;
       },
-      autocompound: async () => {
-        const lockTag = inputs.autocompoundLockTag;
-        const slot = parseInt(inputs.autocompoundSlot);
-
-        const [userLockInfoKey] = await PublicKey.findProgramAddress(
-          [Buffer.from('user_lock_info'), wallet.publicKey.toBuffer(), stakingPoolKey.toBuffer()],
-          program.programId
-        );
-
-        // Fetch user lock info before autocompounding
-        const userLockInfoBefore = await program.account.userLockInfo.fetch(userLockInfoKey);
-        const lockInfoBefore = userLockInfoBefore.locks[Object.keys({ [lockTag.toLowerCase()]: {} })[0]][slot];
-
-        const tx = await program.methods.autocompound({ [lockTag.toLowerCase()]: {} }, slot)
+      // New management functions
+      pause: async () => {
+        const tx = await program.methods.pause()
           .accounts({
             stakingPool: stakingPoolKey,
-            user: wallet.publicKey,
-            userLockInfo: userLockInfoKey,
+            manager: wallet.publicKey,
           }).rpc();
-
-        console.log('Autocompound transaction completed:', tx);
-
-        // Fetch user lock info after autocompounding
-        const userLockInfoAfter = await program.account.userLockInfo.fetch(userLockInfoKey);
-        const newLockInfo = userLockInfoAfter.locks[Object.keys({ [lockTag.toLowerCase()]: {} })[0]][slot];
-
-        // Prepare data for Google Form submission
-        const currentTime = Math.floor(Date.now() / 1000);
-        const formData = {
-          operation: 'Autocompound',
-          userAddress: wallet.publicKey.toString(),
-          amountStaked: formatNumber(newLockInfo.lockedAmount),
-          stakeTier: lockTag,
-          stakeDuration: formatDuration(currentTime - lockInfoBefore.lockStartTime.toNumber()),
-          rewardPercentage: `${(await getRewardPercentage(lockTag) / 100).toFixed(2)}%`,
-          stakeStartTime: formatTime(lockInfoBefore.lockStartTime.toNumber()),
-          unlockTime: formatTime(newLockInfo.unlockTime.toNumber()),
-          stakeEndTime: formatTime(currentTime),
-          lockedRewardAmount: formatNumber(lockInfoBefore.lockedReward),
-          receivedRewardAmount: formatNumber(lockInfoBefore.lockedReward),
-          durationCompletionCheck: 'Full' // Always 'Full' for autocompound
-        };
-
-        // Submit data to Google Form
-        await submitToGoogleForm(formData);
-
-        return tx;
+        return `Program paused. Transaction: ${tx}`;
       },
-    },
-    managerFunctions: {
-      pause: () => program.methods.pause().accounts({ stakingPool: stakingPoolKey, manager: wallet.publicKey }).rpc(),
-      unpause: () => program.methods.unpause().accounts({ stakingPool: stakingPoolKey, manager: wallet.publicKey }).rpc(),
-      stakingPause: () => program.methods.stakingPause().accounts({ stakingPool: stakingPoolKey, manager: wallet.publicKey }).rpc(),
-      stakingUnpause: () => program.methods.stakingUnpause().accounts({ stakingPool: stakingPoolKey, manager: wallet.publicKey }).rpc(),
-      updateRewardPercentage: () => {
-        const newPercentage = new anchor.BN(parseFloat(inputs.newRewardPercentage) * 100);
-        return program.methods.updateRewardPercentage(newPercentage)
-          .accounts({ stakingPool: stakingPoolKey, manager: wallet.publicKey }).rpc();
+      unpause: async () => {
+        const tx = await program.methods.unpause()
+          .accounts({
+            stakingPool: stakingPoolKey,
+            manager: wallet.publicKey,
+          }).rpc();
+        return `Program unpaused. Transaction: ${tx}`;
       },
-      updateLockTime: () => {
-        const newLockTime = new anchor.BN(parseInt(inputs.newLockTime));
-        return program.methods.updateLockTime(newLockTime)
-          .accounts({ stakingPool: stakingPoolKey, manager: wallet.publicKey }).rpc();
+      stakingPause: async () => {
+        const tx = await program.methods.stakingPause()
+          .accounts({
+            stakingPool: stakingPoolKey,
+            manager: wallet.publicKey,
+          }).rpc();
+        return `Staking paused. Transaction: ${tx}`;
+      },
+      stakingUnpause: async () => {
+        const tx = await program.methods.stakingUnpause()
+          .accounts({
+            stakingPool: stakingPoolKey,
+            manager: wallet.publicKey,
+          }).rpc();
+        return `Staking unpaused. Transaction: ${tx}`;
+      },
+      updateRewardPercentage: async () => {
+        const { newPercentage } = inputs.updateRewardPercentage || {};
+        if (!newPercentage) {
+          throw new Error('Please provide the new reward percentage');
+        }
+        const tx = await program.methods.updateRewardPercentage(new anchor.BN(newPercentage * 100))
+  .accounts({
+    stakingPool: stakingPoolKey,
+    manager: wallet.publicKey,
+  }).rpc();
+        return `Reward percentage updated to ${newPercentage}. Transaction: ${tx}`;
+      },
+      updateLockTime: async () => {
+        const { newLockTime } = inputs.updateLockTime || {};
+        if (!newLockTime) {
+          throw new Error('Please provide the new lock time');
+        }
+        const tx = await program.methods.updateLockTime(new anchor.BN(newLockTime))
+          .accounts({
+            stakingPool: stakingPoolKey,
+            manager: wallet.publicKey,
+          }).rpc();
+        return `Lock time updated to ${newLockTime}. Transaction: ${tx}`;
       },
       depositRewards: async () => {
-        const amount = new anchor.BN(parseFloat(inputs.depositAmount) * 1e9);
-        const managerTokenAccount = await getAssociatedTokenAddress(tokenMint, wallet.publicKey);
-        return program.methods.depositRewards(amount)
+        const { amount } = inputs.depositRewards || {};
+        if (!amount) {
+          throw new Error('Please provide the amount to deposit');
+        }
+        const lamports = new anchor.BN(parseFloat(amount) * 1e9);
+        const managerTokenAccount = await getAssociatedTokenAddress(tokenMint, wallet.publicKey, false, tokenProgramId);
+        const tx = await program.methods.depositRewards(lamports)
           .accounts({
             stakingPool: stakingPoolKey,
             manager: wallet.publicKey,
             managerTokenAccount: managerTokenAccount,
             rewardVault: rewardVault,
-            tokenProgram: TOKEN_PROGRAM_ID,
+            tokenProgram: tokenProgramId,
           }).rpc();
+        return `Deposited ${amount} VGR as rewards. Transaction: ${tx}`;
       },
       withdrawUnassignedRewards: async () => {
-        const managerTokenAccount = await getAssociatedTokenAddress(tokenMint, wallet.publicKey);
-        return program.methods.withdrawUnassignedRewards()
+        const managerTokenAccount = await getAssociatedTokenAddress(tokenMint, wallet.publicKey, false, tokenProgramId);
+        const tx = await program.methods.withdrawUnassignedRewards()
           .accounts({
             stakingPool: stakingPoolKey,
             manager: wallet.publicKey,
             managerTokenAccount: managerTokenAccount,
             rewardVault: rewardVault,
             stakeAuthority: stakeAuthority,
-            tokenProgram: TOKEN_PROGRAM_ID,
+            tokenProgram: tokenProgramId,
           }).rpc();
+        return `Withdrew unassigned rewards. Transaction: ${tx}`;
       },
     },
   };
@@ -531,14 +587,6 @@ export default function AdminPage() {
             {Object.entries(functions.viewFunctions).map(([name, func]) => (
               <div key={name} className={styles.adminCard}>
                 <h3>{name}</h3>
-                {name === 'getUserInfo' && (
-                  <input
-                    type="text"
-                    placeholder="User Address (optional)"
-                    onChange={(e) => handleInputChange('userAddress', e.target.value)}
-                    className={styles.adminInput}
-                  />
-                )}
                 <button 
                   className={styles.executeButton} 
                   onClick={() => executeFunction(func, name)}
@@ -554,62 +602,38 @@ export default function AdminPage() {
         <div className={styles.adminSection}>
           <h2 className={styles.sectionTitle}>User Functions</h2>
           <div className={styles.adminGrid}>
-            {Object.entries(functions.userFunctions).map(([name, func]) => (
+            {['stake', 'autocompound', 'unstake'].map((name) => (
               <div key={name} className={styles.adminCard}>
                 <h3>{name}</h3>
                 {name === 'stake' && (
-                  <>
-                    <input
-                      type="number"
-                      placeholder="Amount"
-                      onChange={(e) => handleInputChange('stakeAmount', e.target.value)}
-                      className={styles.adminInput}
-                    />
-                    <select
-                      onChange={(e) => handleInputChange('stakeLockTag', e.target.value)}
-                      className={styles.adminSelect}
-                    >
-                      <option value="">Select Lock Tag</option>
-                      <option value="Bronze">Bronze</option>
-                      <option value="Silver">Silver</option>
-                      <option value="Gold">Gold</option>
-                      <option value="Diamond">Diamond</option>
-                    </select>
-                    <select
-                      onChange={(e) => handleInputChange('stakeSlot', e.target.value)}
-                      className={styles.adminSelect}
-                    >
-                      <option value="">Select Slot</option>
-                      <option value="0">0</option>
-                      <option value="1">1</option>
-                    </select>
-                  </>
+                  <input
+                    type="number"
+                    placeholder="Amount"
+                    onChange={(e) => handleInputChange(name, 'amount', e.target.value)}
+                    className={styles.adminInput}
+                  />
                 )}
-                {(name === 'unstake' || name === 'autocompound') && (
-                  <>
-                    <select
-                      onChange={(e) => handleInputChange(`${name}LockTag`, e.target.value)}
-                      className={styles.adminSelect}
-                    >
-                      <option value="">Select Lock Tag</option>
-                      <option value="Bronze">Bronze</option>
-                      <option value="Silver">Silver</option>
-                      <option value="Gold">Gold</option>
-                      <option value="Diamond">Diamond</option>
-                    </select>
-                    <select
-                      onChange={(e) => handleInputChange(`${name}Slot`, e.target.value)}
-                      className={styles.adminSelect}
-                    >
-                      <option value="">Select Slot</option>
-                      <option value="0">0</option>
-                      <option value="1">1</option>
-                    </select>
-                  </>
-                )}
+                <select
+                  onChange={(e) => handleInputChange(name, 'lockTag', e.target.value)}
+                  className={styles.adminSelect}
+                >
+                  <option value="">Select Lock Tag</option>
+                  <option value="bronze">Bronze</option>
+                  <option value="silver">Silver</option>
+                  <option value="gold">Gold</option>
+                  <option value="diamond">Diamond</option>
+                </select>
+                <select
+                  onChange={(e) => handleInputChange(name, 'slot', parseInt(e.target.value))}
+                  className={styles.adminSelect}
+                >
+                  <option value="">Select Slot</option>
+                  <option value="0">Slot 0</option>
+                  <option value="1">Slot 1</option>
+                </select>
                 <button 
                   className={styles.executeButton} 
-                  onClick={() => executeFunction(func, name)}
+                  onClick={() => executeFunction(functions.executeFunctions[name], name)}
                   disabled={!wallet.connected || loading}
                 >
                   Execute
@@ -620,47 +644,81 @@ export default function AdminPage() {
         </div>
 
         <div className={styles.adminSection}>
-          <h2 className={styles.sectionTitle}>Manager Functions</h2>
+          <h2 className={styles.sectionTitle}>Management Functions</h2>
           <div className={styles.adminGrid}>
-            {Object.entries(functions.managerFunctions).map(([name, func]) => (
+            {['pause', 'unpause', 'stakingPause', 'stakingUnpause'].map((name) => (
               <div key={name} className={styles.adminCard}>
                 <h3>{name}</h3>
-                {name === 'updateRewardPercentage' && (
-                  <input
-                    type="number"
-                    placeholder="New Percentage"
-                    onChange={(e) => handleInputChange('newRewardPercentage', e.target.value)}
-                    className={styles.adminInput}
-                  />
-                )}
-                {name === 'updateLockTime' && (
-                  <input
-                    type="number"
-                    placeholder="New Lock Time (seconds)"
-                    onChange={(e) => handleInputChange('newLockTime', e.target.value)}
-                    className={styles.adminInput}
-                  />
-                )}
-                {name === 'depositRewards' && (
-                  <input
-                    type="number"
-                    placeholder="Amount"
-                    onChange={(e) => handleInputChange('depositAmount', e.target.value)}
-                    className={styles.adminInput}
-                  />
-                )}
                 <button 
                   className={styles.executeButton} 
-                  onClick={() => executeFunction(func, name)}
+                  onClick={() => executeFunction(functions.executeFunctions[name], name)}
                   disabled={!wallet.connected || loading}
                 >
                   Execute
                 </button>
               </div>
             ))}
+            <div className={styles.adminCard}>
+              <h3>updateRewardPercentage</h3>
+              <input
+                type="number"
+                placeholder="New Percentage"
+                onChange={(e) => handleInputChange('updateRewardPercentage', 'newPercentage', e.target.value)}
+                className={styles.adminInput}
+              />
+              <button 
+                className={styles.executeButton} 
+                onClick={() => executeFunction(functions.executeFunctions.updateRewardPercentage, 'updateRewardPercentage')}
+                disabled={!wallet.connected || loading}
+              >
+                Execute
+              </button>
+            </div>
+            <div className={styles.adminCard}>
+              <h3>updateLockTime</h3>
+              <input
+              type="number"
+              placeholder="New Lock Time (seconds)"
+              onChange={(e) => handleInputChange('updateLockTime', 'newLockTime', e.target.value)}
+              className={styles.adminInput}
+            />
+            <button 
+              className={styles.executeButton} 
+              onClick={() => executeFunction(functions.executeFunctions.updateLockTime, 'updateLockTime')}
+              disabled={!wallet.connected || loading}
+            >
+              Execute
+            </button>
+          </div>
+          <div className={styles.adminCard}>
+            <h3>depositRewards</h3>
+            <input
+              type="number"
+              placeholder="Amount to Deposit"
+              onChange={(e) => handleInputChange('depositRewards', 'amount', e.target.value)}
+              className={styles.adminInput}
+            />
+            <button 
+              className={styles.executeButton} 
+              onClick={() => executeFunction(functions.executeFunctions.depositRewards, 'depositRewards')}
+              disabled={!wallet.connected || loading}
+            >
+              Execute
+            </button>
+          </div>
+          <div className={styles.adminCard}>
+            <h3>withdrawUnassignedRewards</h3>
+            <button 
+              className={styles.executeButton} 
+              onClick={() => executeFunction(functions.executeFunctions.withdrawUnassignedRewards, 'withdrawUnassignedRewards')}
+              disabled={!wallet.connected || loading}
+            >
+              Execute
+            </button>
           </div>
         </div>
-        </div>
+      </div>
     </div>
-  );
+  </div>
+);
 }
