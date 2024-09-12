@@ -6,6 +6,37 @@ import styles from "./page.module.css";
 import VhagerManager from "./components/VhagerManager";
 import { useState, useEffect } from "react";
 import { useWallet } from '@solana/wallet-adapter-react';
+import { Connection, PublicKey, Keypair } from '@solana/web3.js';
+import * as anchor from '@project-serum/anchor';
+import idl from '@/idl/idl.json';
+import { config } from './config';
+import bs58 from 'bs58';
+
+function formatDuration(seconds) {
+  if (seconds < 60) return `${seconds} Sec`;
+  if (seconds < 3600) return `${Math.floor(seconds / 60)} Min`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)} Hrs`;
+  return `${Math.floor(seconds / 86400)} Days`;
+}
+
+function AnimatedValue({ value, duration = 2000 }) {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    let startTime;
+    const animateValue = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      setDisplayValue(Math.floor(progress * value));
+      if (progress < 1) {
+        requestAnimationFrame(animateValue);
+      }
+    };
+    requestAnimationFrame(animateValue);
+  }, [value, duration]);
+
+  return displayValue.toLocaleString();
+}
 
 export default function Home() {
   const [userInfo, setUserInfo] = useState(null);
@@ -13,7 +44,51 @@ export default function Home() {
   const [result, setResult] = useState(null);
   const [totalStaked, setTotalStaked] = useState(0);
   const [totalClaimable, setTotalClaimable] = useState(0);
+  const [stakeInfo, setStakeInfo] = useState(null);
   const wallet = useWallet();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const connection = new Connection(config.rpcEndpoint, 'confirmed');
+      const displaySigner = Keypair.fromSecretKey(bs58.decode(config.displaySignerKey));
+      const provider = new anchor.AnchorProvider(
+        connection,
+        {
+          publicKey: displaySigner.publicKey,
+          signTransaction: (tx) => {
+            tx.partialSign(displaySigner);
+            return Promise.resolve(tx);
+          },
+          signAllTransactions: (txs) => {
+            txs.forEach(tx => tx.partialSign(displaySigner));
+            return Promise.resolve(txs);
+          },
+        },
+        { preflightCommitment: 'confirmed' }
+      );
+      const program = new anchor.Program(idl, config.programId, provider);
+
+      try {
+        // Fetch total staked balance
+        const totalStakedBalance = await program.methods.getTotalStakedBalance()
+          .accounts({ stakingPool: config.stakingPoolKey })
+          .view();
+        setTotalStaked(totalStakedBalance.totalLockedBalance.toNumber() / 1e9);
+        setTotalClaimable(totalStakedBalance.totalLockedReward.toNumber() / 1e9);
+
+        // Fetch stake info
+        const stakeInfo = await program.methods.getStakeInfo()
+          .accounts({ stakingPool: config.stakingPoolKey })
+          .view();
+        setStakeInfo(stakeInfo);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setError(err.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     // Load user info from localStorage on component mount
@@ -23,33 +98,10 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    if (wallet.connected) {
-      animateValue(setTotalStaked, 0, 1338429516, 2000);
-      animateValue(setTotalClaimable, 0, 761037824, 2000);
-    } else {
-      setTotalStaked(0);
-      setTotalClaimable(0);
-    }
-  }, [wallet.connected]);
-
   const handleSetUserInfo = (info) => {
     setUserInfo(info);
     // Save user info to localStorage whenever it's updated
     localStorage.setItem('userInfo', JSON.stringify(info));
-  };
-
-  const animateValue = (setter, start, end, duration) => {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      setter(Math.floor(progress * (end - start) + start));
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
-    };
-    window.requestAnimationFrame(step);
   };
 
   return (
@@ -60,8 +112,8 @@ export default function Home() {
         <div className={styles.content}>
           <div className={styles.block}>
             <div className={styles.totstake}>
-              <div>Total Staked: {totalStaked.toLocaleString()} VGR</div>
-              <div>Total Claimable: {totalClaimable.toLocaleString()} VGR</div>
+              <div>Total Staked: <AnimatedValue value={totalStaked} /> VGR</div>
+              <div>Total Claimable: <AnimatedValue value={totalClaimable} /> VGR</div>
             </div>
             <div className={styles.bloco}>
               <li className={`${styles.blocli} ${styles.headerItem}`}>Tier</li>
@@ -70,15 +122,31 @@ export default function Home() {
               <li className={`${styles.blocli} ${styles.tierItem}`}>Gold</li>
               <li className={`${styles.blocli} ${styles.tierItem}`}>Diamond</li>
               <li className={`${styles.blocli} ${styles.headerItem}`}>Lock Period</li>
-              <li className={styles.blocli}>15 Days</li>
-              <li className={styles.blocli}>30 Days</li>
-              <li className={styles.blocli}>60 Days</li>
-              <li className={styles.blocli}>120 Days</li>
+              {stakeInfo ? stakeInfo.map((info, index) => (
+                <li key={`lock-${index}`} className={styles.blocli}>
+                  {formatDuration(info.lockPeriod.toNumber())}
+                </li>
+              )) : (
+                <>
+                  <li className={styles.blocli}>15 Days</li>
+                  <li className={styles.blocli}>30 Days</li>
+                  <li className={styles.blocli}>60 Days</li>
+                  <li className={styles.blocli}>120 Days</li>
+                </>
+              )}
               <li className={`${styles.blocli} ${styles.headerItem}`}>Reward Percentage</li>
-              <li className={styles.blocli}>10.00 %</li>
-              <li className={styles.blocli}>30.00 %</li>
-              <li className={styles.blocli}>90.00 %</li>
-              <li className={styles.blocli}>270.00 %</li>
+              {stakeInfo ? stakeInfo.map((info, index) => (
+                <li key={`reward-${index}`} className={styles.blocli}>
+                  {(info.rewardPercentage.toNumber() / 10000).toFixed(2)} %
+                </li>
+              )) : (
+                <>
+                  <li className={styles.blocli}>10.00 %</li>
+                  <li className={styles.blocli}>30.00 %</li>
+                  <li className={styles.blocli}>90.00 %</li>
+                  <li className={styles.blocli}>270.00 %</li>
+                </>
+              )}
             </div>
           </div>
           <div className={styles.firstblock}>
