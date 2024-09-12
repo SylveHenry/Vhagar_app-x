@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import styles from '../page.module.css';
-import { Connection } from '@solana/web3.js';
+import { Connection, PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
 import { getAssociatedTokenAddress } from '@solana/spl-token';
 import axios from 'axios';
@@ -18,7 +18,8 @@ const {
   tokenMint,
   tokenProgramId,
   stakeVault,
-  rewardVault
+  rewardVault,
+  rpcEndpoint
 } = config;
 
 const lockTagMap = {
@@ -121,7 +122,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (wallet.connected) {
-      const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
+      const connection = new Connection(rpcEndpoint, 'confirmed');
       const provider = new anchor.AnchorProvider(connection, wallet, {
         preflightCommitment: 'confirmed',
       });
