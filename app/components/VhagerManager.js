@@ -2,21 +2,24 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { Connection, PublicKey } from '@solana/web3.js';
+import { Connection } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
 import { getAssociatedTokenAddress } from '@solana/spl-token';
 import axios from 'axios';
 import idl from '@/idl/idl.json';
 import styles from "../page.module.css";
+import { config } from '../config';
 
-// Constants
-const programId = new PublicKey('DybDiU1cRQMPJQLEE5xbtMZg1cihaW7g9aPvqyDSAwwg');
-const stakingPoolKey = new PublicKey('9QmBeWNKpzzSFZisGf8c3ay6ttnh7N5LFdUsWaGmbpgY');
-const stakeAuthority = new PublicKey('BfwdtsDcLLWiTTL8WprXXDEZsZBNHHKcjiKZ8zhvTXgc');
-const tokenMint = new PublicKey('EwVMtR3qMpES8uskX4AFWSxLnRjGRLowaYzn6C4ZN48Y');
-const tokenProgramId = new PublicKey('TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb');
-const stakeVault = new PublicKey('DQPsctR9MT5MBgKhPQE8i8faM6CQU7HRtAn8o9fQ7nwG');
-const rewardVault = new PublicKey('DQPsctR9MT5MBgKhPQE8i8faM6CQU7HRtAn8o9fQ7nwG');
+// Use constants from config
+const {
+  programId,
+  stakingPoolKey,
+  stakeAuthority,
+  tokenMint,
+  tokenProgramId,
+  stakeVault,
+  rewardVault
+} = config;
 
 const lockTagMap = {
   'bronze': { bronze: {} },
