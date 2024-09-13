@@ -116,7 +116,7 @@ const Footer = () => {
       <div className="footer-divider"></div>
       <p className="text-center opp p-2">
         <i className="bi bi-c-circle" style={{ color: "#5ee616" }}></i>
-        &nbsp;2024 Vhagar. &nbsp;All rights reserved.
+        &nbsp;2024. &nbsp;All rights reserved.
       </p>
     </footer>
   );

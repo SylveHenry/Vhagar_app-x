@@ -12,7 +12,7 @@ body {
 }
 
 body {
-  background-color: #050c24;
+  background-color: #2C1E16; /* Deep brown background */
 }
 
 /* Navbar.css */
@@ -30,22 +30,22 @@ body {
 }
 
 .bg-scrolled {
-  background-color: rgba(55, 61, 80, 0.8) !important;
+  background-color: rgba(69, 41, 27, 0.8) !important; /* Darker brown with transparency */
   backdrop-filter: blur(2px);
 }
 
 .nav-link {
-  color: white;
+  color: #FFFFFF; /* Pure white for maximum contrast */
 }
 
 .nav-link.active {
-  color: #5ee616 !important;
-  border-bottom: 2px solid #5ee616;
+  color: #FFD700 !important; /* Gold */
+  border-bottom: 2px solid #FFD700;
 }
 
 .nav-link:hover {
-  color: #5ee616 !important;
-  border-bottom: 2px solid #5ee616;
+  color: #FFD700 !important;
+  border-bottom: 2px solid #FFD700;
 }
 
 .nav-item {
@@ -61,23 +61,23 @@ body {
 }
 
 .stake-button {
-  background: linear-gradient(to right, #5ee616, #15b8a3);
+  background: linear-gradient(to right, #FF8C00, #FF4500); /* Dark orange to Red-orange */
   border-radius: 5px;
-  color: #050c24;
-  border: 1px solid white;
+  color: #FFFFFF;
+  border: 1px solid #FFFFFF;
 }
 
 .stake-button:hover {
-  background: #050c24;
+  background: #2C1E16;
   border-radius: 5px;
-  color: white;
-  border: 2px solid #5ee616;
+  color: #FFFFFF;
+  border: 2px solid #FF8C00;
 }
 
 /* Footer section */
 footer {
-  background-color: #1e2230;
-  color: white;
+  background-color: #45291B; /* Darker brown */
+  color: #FFFFFF;
   position: relative;
   width: 100%;
   padding-top: 40px;
@@ -111,24 +111,24 @@ footer {
 }
 
 .column a {
-  color: #fff;
+  color: #FFFFFF;
   text-decoration: none;
 }
 
 .footer a:hover {
-  color: #5ee616;
+  color: #FFD700;
   letter-spacing: 0.03em;
 }
 
 .footer-divider {
   height: 0.5px;
-  background: #5ee616;
+  background: #FFD700;
   margin-top: 40px;
 }
 
 .column a:hover,
 .column.co-serve a:hover {
-  color: #5ee616;
+  color: #FFD700;
   transition: color 0.3s ease;
 }
 
@@ -148,7 +148,7 @@ select:focus {
 }
 
 .social-icon:hover {
-  filter: drop-shadow(0 0 10px #5ee616);
+  filter: drop-shadow(0 0 10px #FFD700);
 }
 
 @media screen and (max-width: 765px) {

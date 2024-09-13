@@ -14,7 +14,7 @@
 
 .cont{
   font-family: 'BeldgoRegular', sans-serif;
-  background: linear-gradient(to right, #5ee616, #15b8a3);
+  background: linear-gradient(to right, #FF8C00, #FF4500); /* Dark orange to Red-orange */
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -25,7 +25,7 @@
 
 .content {
   flex: 1;
-  background-color: #0a194970;
+  background-color: #45291B70; /* Darker brown with transparency */
   box-shadow: inset;
   padding: 30px;
   padding-bottom: 60px;
@@ -34,12 +34,12 @@
 .totstake{
   display: flex;
   justify-content: space-between;
-  background-color: #4e914c;
+  background-color: #8B4513; /* Saddle brown */
   padding: 20px;
   border-radius: 10px;
   font-size: 18px;
   font-weight: bold;
-  color: white;
+  color: #FFFFFF;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
@@ -50,22 +50,22 @@
 }
 
 .info {
-  background-color: #4e914c;
-  color: white;
+  background-color: #8B4513;
+  color: #FFFFFF;
   padding: 40px;
   width: 50%;
 }
 
 .firstblock {
   margin: auto 70px;
-  color: white;
-  background-color: #63b560;
+  color: #FFFFFF;
+  background-color: #A0522D; /* Sienna */
 }
 
 .block{
-  color: white;
+  color: #FFFFFF;
   margin: 20px 70px;
-  border: 2px solid #63b560;
+  border: 2px solid #A0522D;
   padding: 20px;
 }
 
@@ -84,12 +84,12 @@
 
 .headerItem {
   font-weight: bold;
-  color: #15b8a3;
+  color: #FFD700; /* Gold */
 }
 
 .tierItem {
   font-weight: bold;
-  color: #5ee616;
+  color: #FFA500; /* Orange */
 }
 
 .column {
@@ -102,14 +102,14 @@
 }
 
 .cols {
-  border: 2px solid #63b560;
-  color: white;
+  border: 2px solid #A0522D;
+  color: #FFFFFF;
   border-radius: 10px;
   margin: 10px;
 }
 
 .form-select {
-  background-color: #63b560 !important;
+  background-color: #A0522D !important;
 }
 
 .token {
@@ -132,23 +132,23 @@
 
 .link{
   text-decoration: none;
-  color: white;
+  color: #FFFFFF;
 }
 
 .updateInfoButton {
-  background: linear-gradient(to right, #5ee616, #15b8a3);
+  background: linear-gradient(to right, #FF8C00, #FF4500);
   border-radius: 25px;
-  color: #050c24;
-  border: 1px solid white;
+  color: #FFFFFF;
+  border: 1px solid #FFFFFF;
   padding: 10px 20px;
   font-weight: bold;
   transition: all 0.3s ease;
 }
 
 .updateInfoButton:hover {
-  background: #050c24;
-  color: white;
-  border: 2px solid #5ee616;
+  background: #2C1E16;
+  color: #FFFFFF;
+  border: 2px solid #FF8C00;
 }
 
 .updateInfoButtonMobile {
@@ -156,37 +156,37 @@
 }
 
 .customSelect {
-  background-color: rgba(10, 25, 73, 0.8) !important;
-  border: 2px solid #63b560 !important;
-  color: #fff !important;
+  background-color: rgba(69, 41, 27, 0.8) !important;
+  border: 2px solid #A0522D !important;
+  color: #FFFFFF !important;
   transition: all 0.3s ease;
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235ee616' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFD700' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 1em;
 }
 
 .customSelect:hover, .customSelect:focus {
-  border-color: #5ee616 !important;
-  box-shadow: 0 0 0 0.2rem rgba(94, 230, 22, 0.25);
+  border-color: #FFD700 !important;
+  box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
 }
 
 .customSelect option {
-  background-color: #0a1949;
-  color: #fff;
+  background-color: #45291B;
+  color: #FFFFFF;
 }
 
 .customSelect option:hover {
-  background-color: #63b560;
+  background-color: #A0522D;
 }
 
 .executeButton {
-  background: linear-gradient(to right, #5ee616, #15b8a3);
+  background: linear-gradient(to right, #FF8C00, #FF4500);
   border-radius: 5px;
-  color: #050c24;
-  border: 1px solid white;
+  color: #FFFFFF;
+  border: 1px solid #FFFFFF;
   padding: 10px 20px;
   font-weight: bold;
   transition: all 0.3s ease;
@@ -213,9 +213,9 @@
 }
 
 .executeButton:hover {
-  background: #050c24;
-  color: white;
-  border: 2px solid #5ee616;
+  background: #2C1E16;
+  color: #FFFFFF;
+  border: 2px solid #FF8C00;
 }
 
 .title {
@@ -247,37 +247,37 @@
 }
 
 .dullYellowText {
-  color: #b5b352;
+  color: #FFD700; /* Gold */
 }
 
 .walletButton {
-  background: linear-gradient(to right, #5ee616, #15b8a3) !important;
-  color: #050c24 !important;
-  border: 3px solid #5ee616 !important;
+  background: linear-gradient(to right, #FF8C00, #FF4500) !important;
+  color: #FFFFFF !important;
+  border: 3px solid #FF8C00 !important;
   transition: all 0.3s ease !important;
 }
 
 .walletButton:hover {
-  background: #050c24 !important;
-  color: white !important;
-  border: 3px solid #5ee616 !important;
+  background: #2C1E16 !important;
+  color: #FFFFFF !important;
+  border: 3px solid #FF8C00 !important;
 }
 
 .displayArea {
-  background-color: rgba(10, 25, 73, 0.8);
-  border: 2px solid #63b560;
+  background-color: rgba(69, 41, 27, 0.8);
+  border: 2px solid #A0522D;
   border-radius: 10px;
   padding: 20px;
   margin-top: 20px;
-  color: white;
+  color: #FFFFFF;
   max-height: 200px;
   overflow-y: auto;
   word-wrap: break-word;
 }
 
 .stakingInfoContainer {
-  background-color: rgba(10, 25, 73, 0.8);
-  border: 2px solid #63b560;
+  background-color: rgba(69, 41, 27, 0.8);
+  border: 2px solid #A0522D;
   border-radius: 10px;
   padding: 20px;
 }
@@ -289,11 +289,11 @@
 }
 
 .infoBox {
-  background: linear-gradient(145deg, #2a3f6f, #1c2a4a);
-  border: 2px solid #63b560;
+  background: linear-gradient(145deg, #8B4513, #A0522D);
+  border: 2px solid #A0522D;
   border-radius: 10px;
   padding: 20px;
-  color: white;
+  color: #FFFFFF;
   transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -304,7 +304,7 @@
 }
 
 .infoBoxTitle {
-  color: #5ee616;
+  color: #FFD700;
   font-size: 1.5em;
   margin-bottom: 15px;
   text-align: center;
@@ -315,7 +315,7 @@
 }
 
 .infoBox strong {
-  color: #15b8a3;
+  color: #FFA500; /* Orange */
 }
 
 /* Admin Page Styles */
@@ -324,7 +324,7 @@
 }
 
 .sectionTitle {
-  color: #5ee616;
+  color: #FFD700;
   font-size: 1.8em;
   margin-bottom: 20px;
   text-align: center;
@@ -340,8 +340,8 @@
 }
 
 .adminCard {
-  background: linear-gradient(145deg, #0c1d5c, #0a194d);
-  border: 2px solid #63b560;
+  background: linear-gradient(145deg, #45291B, #2C1E16);
+  border: 2px solid #A0522D;
   border-radius: 10px;
   padding: 20px;
   display: flex;
@@ -352,21 +352,21 @@
 
 .adminCard:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(94, 230, 22, 0.2);
+  box-shadow: 0 10px 20px rgba(255, 140, 0, 0.2);
 }
 
 .adminCard h3 {
-  color: #5ee616;
+  color: #FFD700;
   margin-bottom: 15px;
   font-size: 1.2em;
   text-align: center;
 }
 
 .adminInput, .adminSelect {
-  background-color: rgba(10, 25, 73, 0.8);
-  border: 2px solid #63b560;
+  background-color: rgba(69, 41, 27, 0.8);
+  border: 2px solid #A0522D;
   border-radius: 5px;
-  color: white;
+  color: #FFFFFF;
   padding: 10px;
   margin-bottom: 10px;
   width: 100%;
@@ -375,23 +375,23 @@
 
 .adminInput:focus, .adminSelect:focus {
   outline: none;
-  border-color: #5ee616;
-  box-shadow: 0 0 0 2px rgba(94, 230, 22, 0.3);
+  border-color: #FFD700;
+  box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
 }
 
 .adminSelect {
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235ee616' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFD700' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 1em;
 }
 
 .executeButton {
-  background: linear-gradient(to right, #5ee616, #15b8a3);
+  background: linear-gradient(to right, #FF8C00, #FF4500);
   border: none;
   border-radius: 5px;
-  color: #050c24;
+  color: #FFFFFF;
   padding: 10px 20px;
   font-weight: bold;
   transition: all 0.3s ease;
@@ -401,24 +401,24 @@
 }
 
 .executeButton:hover {
-  background: linear-gradient(to right, #15b8a3, #5ee616);
+  background: linear-gradient(to right, #FF4500, #FF8C00);
   transform: translateY(-2px);
-  box-shadow: 0 5px 10px rgba(94, 230, 22, 0.3);
+  box-shadow: 0 5px 10px rgba(255, 140, 0, 0.3);
 }
 
 .executeButton:disabled {
-  background: #63b560;
+  background: #A0522D;
   cursor: not-allowed;
   opacity: 0.7;
 }
 
 .resultArea {
-  background-color: rgba(10, 25, 73, 0.8);
-  border: 2px solid #63b560;
+  background-color: rgba(69, 41, 27, 0.8);
+  border: 2px solid #A0522D;
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 30px;
-  color: white;
+  color: #FFFFFF;
   max-height: 300px;
   overflow-y: auto;
   font-family: 'Courier New', Courier, monospace;
@@ -433,9 +433,9 @@
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 3px solid rgba(94, 230, 22, 0.3);
+  border: 3px solid rgba(255, 140, 0, 0.3);
   border-radius: 50%;
-  border-top-color: #5ee616;
+  border-top-color: #FF8C00;
   animation: spin 1s ease-in-out infinite;
 }
 
@@ -444,11 +444,11 @@
 }
 
 .error {
-  color: #ff6b6b;
+  color: #FF6347; /* Tomato */
   font-weight: bold;
   padding: 10px;
-  border-left: 4px solid #ff6b6b;
-  background-color: rgba(255, 107, 107, 0.1);
+  border-left: 4px solid #FF6347;
+  background-color: rgba(255, 99, 71, 0.1);
 }
 
 /* Responsive styles */
@@ -463,7 +463,7 @@
   .totstake{
     display: block;
     padding: 10px;
-    background-color: #0a194970;
+    background-color: #45291B70;
   }
   .content {
     padding: 10px;
@@ -475,15 +475,15 @@
     display: block;
   }
   .info {
-    background-color: #4e914c;
-    color: white;
+    background-color: #8B4513;
+    color: #FFFFFF;
     padding: 15px;
     width: 100%;
   }
   .firstblock {
     margin: auto 10px;
-    color: white;
-    background-color: #63b560;
+    color: #FFFFFF;
+    background-color: #A0522D;
   }
   .column {
     display: grid;
@@ -544,15 +544,15 @@
     padding-bottom: 20px;
   }
   .info {
-    background-color: #4e914c;
-    color: white;
+    background-color: #8B4513;
+    color: #FFFFFF;
     padding: 20px;
     width: 60%;
   }
   .firstblock {
     margin: auto 10px;
-    color: white;
-    background-color: #63b560;
+    color: #FFFFFF;
+    background-color: #A0522D;
   }
   .column {
     display: grid;
@@ -636,17 +636,17 @@
 
 /* Accessibility improvements */
 .adminInput:focus, .adminSelect:focus, .executeButton:focus {
-  outline: 3px solid #5ee616;
+  outline: 3px solid #FFD700;
   outline-offset: 2px;
 }
 
 /* Additional hover effects for better user feedback */
 .adminInput:hover, .adminSelect:hover {
-  border-color: #5ee616;
+  border-color: #FFD700;
 }
 
 .adminCard:hover {
-  box-shadow: 0 0 15px rgba(94, 230, 22, 0.3);
+  box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
 }
 
 /* Improved scrollbar for result area */
@@ -655,22 +655,22 @@
 }
 
 .resultArea::-webkit-scrollbar-track {
-  background: rgba(10, 25, 73, 0.8);
+  background: rgba(69, 41, 27, 0.8);
 }
 
 .resultArea::-webkit-scrollbar-thumb {
-  background-color: #63b560;
+  background-color: #A0522D;
   border-radius: 5px;
-  border: 2px solid rgba(10, 25, 73, 0.8);
+  border: 2px solid rgba(69, 41, 27, 0.8);
 }
 
 .resultArea::-webkit-scrollbar-thumb:hover {
-  background-color: #5ee616;
+  background-color: #FF8C00;
 }
 
 /* Additional styles for better spacing and readability in the admin panel */
 .adminSection:not(:last-child) {
-  border-bottom: 2px solid rgba(99, 181, 96, 0.3);
+  border-bottom: 2px solid rgba(160, 82, 45, 0.3);
   padding-bottom: 30px;
 }
 
@@ -696,20 +696,20 @@
 
 .resultArea pre {
   padding: 10px;
-  background-color: rgba(10, 25, 73, 0.5);
+  background-color: rgba(69, 41, 27, 0.5);
   border-radius: 5px;
 }
 
 /* Add a subtle animation to the execute button */
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(94, 230, 22, 0.4);
+    box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.4);
   }
   70% {
-    box-shadow: 0 0 0 10px rgba(94, 230, 22, 0);
+    box-shadow: 0 0 0 10px rgba(255, 140, 0, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(94, 230, 22, 0);
+    box-shadow: 0 0 0 0 rgba(255, 140, 0, 0);
   }
 }
 
