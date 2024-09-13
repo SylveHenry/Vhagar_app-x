@@ -1,16 +1,10 @@
 'use client';
 
-import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
 import VhagerManager from "./components/VhagerManager";
 import { useState, useEffect } from "react";
 import { useWallet } from '@solana/wallet-adapter-react';
-import { Connection, PublicKey, Keypair } from '@solana/web3.js';
-import * as anchor from '@project-serum/anchor';
-import idl from '@/idl/idl.json';
-import { config } from './config';
-import bs58 from 'bs58';
 
 function formatDuration(seconds) {
   if (seconds < 60) return `${seconds} Sec`;
