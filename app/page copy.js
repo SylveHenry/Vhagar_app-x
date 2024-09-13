@@ -49,22 +49,38 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch('/api/get-staking-info', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
+      const connection = new Connection(config.rpcEndpoint, 'confirmed');
+      const displaySigner = Keypair.fromSecretKey(bs58.decode(config.displaySignerKey));
+      const provider = new anchor.AnchorProvider(
+        connection,
+        {
+          publicKey: displaySigner.publicKey,
+          signTransaction: (tx) => {
+            tx.partialSign(displaySigner);
+            return Promise.resolve(tx);
           },
-        });
+          signAllTransactions: (txs) => {
+            txs.forEach(tx => tx.partialSign(displaySigner));
+            return Promise.resolve(txs);
+          },
+        },
+        { preflightCommitment: 'confirmed' }
+      );
+      const program = new anchor.Program(idl, config.programId, provider);
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch staking info');
-        }
+      try {
+        // Fetch total staked balance
+        const totalStakedBalance = await program.methods.getTotalStakedBalance()
+          .accounts({ stakingPool: config.stakingPoolKey })
+          .view();
+        setTotalStaked(totalStakedBalance.totalLockedBalance.toNumber() / 1e9);
+        setTotalClaimable(totalStakedBalance.totalLockedReward.toNumber() / 1e9);
 
-        const data = await response.json();
-        setTotalStaked(data.totalStaked);
-        setTotalClaimable(data.totalClaimable);
-        setStakeInfo(data.stakeInfo);
+        // Fetch stake info
+        const stakeInfo = await program.methods.getStakeInfo()
+          .accounts({ stakingPool: config.stakingPoolKey })
+          .view();
+        setStakeInfo(stakeInfo);
       } catch (err) {
         console.error("Error fetching data:", err);
         setError(err.message);
@@ -91,7 +107,7 @@ export default function Home() {
   return (
     <>
       <div className={styles.contai}>
-      <h1 className={`${styles.cont} ${styles.title}`}>Vhagar Reward Pool</h1>
+        <h1 className={`${styles.cont} ${styles.title}`}>Vhagar Reward Pool</h1>
         <p className={`text-light text-center ${styles.subtitle}`}>Vhagar on Solana Staking Pool</p>
         <div className={styles.content}>
           <div className={styles.block}>
@@ -99,40 +115,40 @@ export default function Home() {
               <div>Total Staked: <AnimatedValue value={totalStaked} /> VGR</div>
               <div>Total Claimable: <AnimatedValue value={totalClaimable} /> VGR</div>
             </div>
-        <div className={styles.bloco}>
-        <li className={`${styles.blocli} ${styles.headerItem}`}>Tier</li>
+            <div className={styles.bloco}>
+              <li className={`${styles.blocli} ${styles.headerItem}`}>Tier</li>
               <li className={`${styles.blocli} ${styles.tierItem}`}>Bronze</li>
               <li className={`${styles.blocli} ${styles.tierItem}`}>Silver</li>
               <li className={`${styles.blocli} ${styles.tierItem}`}>Gold</li>
               <li className={`${styles.blocli} ${styles.tierItem}`}>Diamond</li>
-          <li className={`${styles.blocli} ${styles.headerItem}`}>Lock Period</li>
-          {stakeInfo ? stakeInfo.map((info, index) => (
-            <li key={`lock-${index}`} className={styles.blocli}>
-              {formatDuration(info.lockPeriod)}
-            </li>
-          )) : (
-            <>
-              <li className={styles.blocli}>0 Days</li>
-              <li className={styles.blocli}>0 Days</li>
-              <li className={styles.blocli}>0 Days</li>
-              <li className={styles.blocli}>0 Days</li>
-            </>
-          )}
-          <li className={`${styles.blocli} ${styles.headerItem}`}>Reward Percentage</li>
-          {stakeInfo ? stakeInfo.map((info, index) => (
-            <li key={`reward-${index}`} className={styles.blocli}>
-              {(info.rewardPercentage / 10000).toFixed(2)} %
-            </li>
-          )) : (
-            <>
-              <li className={styles.blocli}>0.00 %</li>
-              <li className={styles.blocli}>0.00 %</li>
-              <li className={styles.blocli}>0.00 %</li>
-              <li className={styles.blocli}>0.00 %</li>
-            </>
-          )}
-        </div>
-        </div>
+              <li className={`${styles.blocli} ${styles.headerItem}`}>Lock Period</li>
+              {stakeInfo ? stakeInfo.map((info, index) => (
+                <li key={`lock-${index}`} className={styles.blocli}>
+                  {formatDuration(info.lockPeriod.toNumber())}
+                </li>
+              )) : (
+                <>
+                  <li className={styles.blocli}>15 Days</li>
+                  <li className={styles.blocli}>30 Days</li>
+                  <li className={styles.blocli}>60 Days</li>
+                  <li className={styles.blocli}>120 Days</li>
+                </>
+              )}
+              <li className={`${styles.blocli} ${styles.headerItem}`}>Reward Percentage</li>
+              {stakeInfo ? stakeInfo.map((info, index) => (
+                <li key={`reward-${index}`} className={styles.blocli}>
+                  {(info.rewardPercentage.toNumber() / 10000).toFixed(2)} %
+                </li>
+              )) : (
+                <>
+                  <li className={styles.blocli}>10.00 %</li>
+                  <li className={styles.blocli}>30.00 %</li>
+                  <li className={styles.blocli}>90.00 %</li>
+                  <li className={styles.blocli}>270.00 %</li>
+                </>
+              )}
+            </div>
+          </div>
           <div className={styles.firstblock}>
             <div className={styles.stakinfo}>
               <h2 className="text-light">Your Staking Info</h2>

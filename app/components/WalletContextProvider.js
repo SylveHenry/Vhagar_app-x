@@ -5,14 +5,12 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import * as wallets from '@solana/wallet-adapter-wallets';
-import { config } from '../config';
 
 import '@solana/wallet-adapter-react-ui/styles.css';
 
 export default function WalletContextProvider({ children }) {
-  const { rpcEndpoint } = config;
   const network = WalletAdapterNetwork.Devnet;
-  const endpoint = useMemo(() => rpcEndpoint, [rpcEndpoint]);
+  const endpoint = useMemo(() => process.env.NEXT_PUBLIC_RPC_ENDPOINT, []);
 
   const walletOptions = useMemo(
     () => [

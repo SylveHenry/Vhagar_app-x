@@ -122,7 +122,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (wallet.connected) {
-      const connection = new Connection(rpcEndpoint, 'confirmed');
+      const connection = new Connection(process.env.NEXT_PUBLIC_RPC_ENDPOINT, 'confirmed');
       const provider = new anchor.AnchorProvider(connection, wallet, {
         preflightCommitment: 'confirmed',
       });

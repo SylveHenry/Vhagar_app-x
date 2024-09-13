@@ -8,6 +8,7 @@ export const config = {
   tokenProgramId: new PublicKey('TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb'),
   stakeVault: new PublicKey('DQPsctR9MT5MBgKhPQE8i8faM6CQU7HRtAn8o9fQ7nwG'),
   rewardVault: new PublicKey('DQPsctR9MT5MBgKhPQE8i8faM6CQU7HRtAn8o9fQ7nwG'),
-  rpcEndpoint: 'https://api.devnet.solana.com',
-  displaySignerKey: '2NWEkf8rVQPhjacsykZZBkVSVwLWTTntEePYX92VivqSTKKmpqhrR17JNt9UNurfnd9Zy9cFMd1oSn8aFbzJbDqf',
+  // Remove the following two lines:
+  // rpcEndpoint: 'https://api.devnet.solana.com',
+  // displaySignerKey: '2NWEkf8rVQPhjacsykZZBkVSVwLWTTntEePYX92VivqSTKKmpqhrR17JNt9UNurfnd9Zy9cFMd1oSn8aFbzJbDqf',
 };
