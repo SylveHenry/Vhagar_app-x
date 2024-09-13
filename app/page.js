@@ -5,6 +5,12 @@ import styles from "./page.module.css";
 import VhagerManager from "./components/VhagerManager";
 import { useState, useEffect } from "react";
 import { useWallet } from '@solana/wallet-adapter-react';
+import { config } from './config';
+
+function formatNumber(number, decimals = config.tokenDecimals) {
+  const value = Number(number) / Math.pow(10, decimals);
+  return new Intl.NumberFormat('en-US', { maximumFractionDigits: decimals }).format(value);
+}
 
 function formatDuration(seconds) {
   if (seconds < 60) return `${seconds} Sec`;

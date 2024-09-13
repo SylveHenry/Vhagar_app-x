@@ -47,8 +47,8 @@ export default async function handler(req, res) {
     }));
 
     res.status(200).json({
-      totalStaked: totalStakedBalance.totalLockedBalance.toNumber() / 1e9,
-      totalClaimable: totalStakedBalance.totalLockedReward.toNumber() / 1e9,
+      totalStaked: totalStakedBalance.totalLockedBalance.toNumber() / Math.pow(10, config.tokenDecimals),
+      totalClaimable: totalStakedBalance.totalLockedReward.toNumber() / Math.pow(10, config.tokenDecimals),
       stakeInfo: formattedStakeInfo
     });
   } catch (error) {

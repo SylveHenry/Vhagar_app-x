@@ -29,7 +29,7 @@ const lockTagMap = {
   'diamond': { diamond: {} }
 };
 
-function formatNumber(number, decimals = 9) {
+function formatNumber(number, decimals = config.tokenDecimals) {
   const value = Number(number) / Math.pow(10, decimals);
   return new Intl.NumberFormat('en-US', { maximumFractionDigits: decimals }).format(value);
 }
@@ -232,7 +232,7 @@ export default function VhagerManager({ setUserInfo }) {
         if (!amount || !lockTag) {
           throw new Error('Please provide all required inputs: amount and lockTag');
         }
-        const lamports = new anchor.BN(parseFloat(amount) * 1e9);
+        const lamports = new anchor.BN(parseFloat(amount) * Math.pow(10, config.tokenDecimals));
         const [userLockInfoKey] = await PublicKey.findProgramAddress(
           [Buffer.from('user_lock_info'), wallet.publicKey.toBuffer(), stakingPoolKey.toBuffer()],
           program.programId
@@ -425,7 +425,7 @@ export default function VhagerManager({ setUserInfo }) {
                   ) : (
                     <input
                       type="number"
-                      step="0.000000001"
+                      step={`1e-${config.tokenDecimals}`}
                       placeholder={`Enter ${input}`}
                       className="p-3 w-100"
                       style={{ border: "1px solid #63b560" }}
