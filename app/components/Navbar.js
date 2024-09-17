@@ -56,17 +56,22 @@ const Navbar = () => {
         <a className="navbar-brand text-light ps-2" href="https://vhagar.finance/">
           <Image src={logoSrc} width={128} height={77} alt="Logo" />
         </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <h2><i className="bi bi-list text-light"></i></h2>
-        </button>
+        <div className="d-flex d-lg-none align-items-center">
+          <div className="me-2">
+            <WalletMultiButton className={styles.walletButton} />
+          </div>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <h2><i className="bi bi-list text-light"></i></h2>
+          </button>
+        </div>
         <div
           className="collapse navbar-collapse justify-content-center"
           id="navbarSupportedContent"
@@ -122,24 +127,30 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <div className="ms-auto">
-          <style jsx global>{`
-            .wallet-adapter-dropdown {
-              background-color: #0a194970 !important;
-              border: 2px solid #63b560 !important;
-              border-radius: 10px !important;
-            }
-            .wallet-adapter-dropdown-list-item {
-              background-color: transparent !important;
-              color: white !important;
-            }
-            .wallet-adapter-dropdown-list-item:hover {
-              background-color: #63b560 !important;
-            }
-          `}</style>
+        <div className="d-none d-lg-block">
           <WalletMultiButton className={styles.walletButton} />
         </div>
       </div>
+      <style jsx global>{`
+        .wallet-adapter-dropdown {
+          background-color: #0a194970 !important;
+          border: 2px solid #63b560 !important;
+          border-radius: 10px !important;
+        }
+        .wallet-adapter-dropdown-list-item {
+          background-color: transparent !important;
+          color: white !important;
+        }
+        .wallet-adapter-dropdown-list-item:hover {
+          background-color: #63b560 !important;
+        }
+        @media (max-width: 991px) {
+          .wallet-adapter-button {
+            font-size: 14px !important;
+            padding: 0 10px !important;
+          }
+        }
+      `}</style>
     </nav>
   );
 };
