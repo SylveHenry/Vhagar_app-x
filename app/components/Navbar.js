@@ -68,7 +68,7 @@ const Navbar = () => {
   return (
     <nav className={navbarClass}>
       <div className="container-fluid p-2">
-        <a className="navbar-brand text-light ps-2" href="https://vhagar.finance/">
+        <a className="navbar-brand text-light ps-2" href="/">
           <Image src={logoSrc} width={128} height={77} alt="Logo" />
         </a>
         <div className="d-flex d-lg-none align-items-center">
