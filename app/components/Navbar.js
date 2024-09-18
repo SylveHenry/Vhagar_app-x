@@ -2,53 +2,68 @@
 
 import debounce from "lodash.debounce";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import styles from "../page.module.css";
+import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   const [navbarClass, setNavbarClass] = useState(
-    "navbar navbar-expand-lg navbar-light bg-transparent"
+    `navbar navbar-expand-lg navbar-light ${styles.navbar} ${styles.bgTransparent}`
   );
   const [logoSrc, setLogoSrc] = useState("/logo_with_word.png");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleScroll = useCallback(debounce(() => {
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY > 0) {
+      setNavbarClass(
+        `navbar navbar-expand-lg navbar-light ${styles.navbar} ${styles.bgScrolled} shadow-sm`
+      );
+    } else {
+      setNavbarClass(`navbar navbar-expand-lg navbar-light ${styles.navbar} ${styles.bgTransparent}`);
+    }
+  }, 100), []);
+
+  const handleResize = useCallback(debounce(() => {
+    if (window.innerWidth < 992) {
+      setLogoSrc("/logo_with_word2.png");
+    } else {
+      setLogoSrc("/logo_with_word.png");
+    }
+  }, 100), []);
 
   useEffect(() => {
-    const handleScroll = debounce(() => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > 0) {
-        setNavbarClass(
-          "navbar navbar-expand-lg navbar-light bg-scrolled shadow-sm"
-        );
-      } else {
-        setNavbarClass("navbar navbar-expand-lg navbar-light bg-transparent");
-      }
-    }, 100);
-
+    handleResize();
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleResize = debounce(() => {
-      if (window.innerWidth < 992) {
-        setLogoSrc("/logo_with_word2.png");
-      } else {
-        setLogoSrc("/logo_with_word.png");
-      }
-    }, 100);
-
-    handleResize(); // Call handler once to set initial state
-
     window.addEventListener("resize", handleResize);
 
     return () => {
+      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [handleScroll, handleResize]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const navbar = document.getElementById("navbarSupportedContent");
+      const navbarToggler = document.querySelector(`.${styles.navbarToggler}`);
+      if (isMenuOpen && !navbar.contains(event.target) && !navbarToggler.contains(event.target)) {
+        setIsMenuOpen(false);
+        navbar.classList.remove("show");
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <nav className={navbarClass}>
@@ -58,18 +73,23 @@ const Navbar = () => {
         </a>
         <div className="d-flex d-lg-none align-items-center">
           <div className="me-2">
-            <WalletMultiButton className={styles.walletButton} />
+            <WalletMultiButton className={`${styles.walletAdapterButton} ${styles.walletButton}`} />
           </div>
           <button
-            className="navbar-toggler"
+            className={`${styles.navbarToggler} ${isMenuOpen ? styles.navbarTogglerActive : ''}`}
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent"
-            aria-expanded="false"
+            aria-expanded={isMenuOpen}
             aria-label="Toggle navigation"
+            onClick={toggleMenu}
           >
-            <h2><i className="bi bi-list text-light"></i></h2>
+            <div className={styles.menuIcon}>
+              <span className={styles.menuIconBar}></span>
+              <span className={styles.menuIconBar}></span>
+              <span className={styles.menuIconBar}></span>
+            </div>
           </button>
         </div>
         <div
@@ -77,80 +97,26 @@ const Navbar = () => {
           id="navbarSupportedContent"
         >
           <ul className="navbar-nav">
-            <li className="nav-item">
-              <a className="nav-link" href="https://vhagar.finance/#about" 
-                target="_blank"
-                rel="noopener noreferrer">
-                ABOUT
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="https://vhagar.finance/#tokenomics" 
-                target="_blank"
-                rel="noopener noreferrer">
-                TOKENOMICS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="https://vhagar.finance/#roadmap-container" 
-                target="_blank"
-                rel="noopener noreferrer">
-                ROADMAP
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="https://vhagar.finance/#network" 
-                target="_blank"
-                rel="noopener noreferrer">
-                COMMUNITY
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                href="https://TOOLs.vhagar.finance/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                TOOLS
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link"
-                href="https://docs.vhagar.finance/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GREENPAPER
-              </a>
-            </li>
+            {['ABOUT', 'TOKENOMICS', 'ROADMAP', 'COMMUNITY', 'TOOLS', 'GREENPAPER'].map((item, index) => (
+              <li key={item} className={`nav-item ${styles.navItem}`}>
+                <a 
+                  className={`nav-link ${styles.navLink}`} 
+                  href={index < 4 ? `https://vhagar.finance/#${item.toLowerCase()}` : 
+                        item === 'TOOLS' ? 'https://TOOLs.vhagar.finance/' : 
+                        'https://docs.vhagar.finance/'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {item}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="d-none d-lg-block">
-          <WalletMultiButton className={styles.walletButton} />
+          <WalletMultiButton className={`${styles.walletAdapterButton} ${styles.walletButton}`} />
         </div>
       </div>
-      <style jsx global>{`
-        .wallet-adapter-dropdown {
-          background-color: #0a194970 !important;
-          border: 2px solid #63b560 !important;
-          border-radius: 10px !important;
-        }
-        .wallet-adapter-dropdown-list-item {
-          background-color: transparent !important;
-          color: white !important;
-        }
-        .wallet-adapter-dropdown-list-item:hover {
-          background-color: #63b560 !important;
-        }
-        @media (max-width: 991px) {
-          .wallet-adapter-button {
-            font-size: 14px !important;
-            padding: 0 10px !important;
-          }
-        }
-      `}</style>
     </nav>
   );
 };

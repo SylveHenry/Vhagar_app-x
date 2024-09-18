@@ -1,0 +1,122 @@
+.walletAdapterDropdown {
+    background-color: #0a194970 !important;
+    border: 2px solid #63b560 !important;
+    border-radius: 10px !important;
+  }
+  
+  .walletAdapterDropdownListItem {
+    background-color: transparent !important;
+    color: white !important;
+  }
+  
+  .walletAdapterDropdownListItem:hover {
+    background-color: #63b560 !important;
+  }
+  
+  .walletAdapterButton {
+    font-size: 14px !important;
+    padding: 0 10px !important;
+  }
+
+  .walletButton {
+    background: linear-gradient(to right, #FF8C00, #FF4500) !important;
+    color: #FFFFFF !important;
+    border: 3px solid #FF8C00 !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .walletButton:hover {
+    background: #2C1E16 !important;
+    color: #FFFFFF !important;
+    border: 3px solid #FF8C00 !important;
+  }
+  
+  .navbarToggler {
+    border: none;
+    background: transparent;
+    transition: transform 0.3s ease-in-out;
+    padding: 0;
+  }
+  
+  .navbarToggler:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  
+  .navbarTogglerActive {
+    transform: rotate(90deg);
+  }
+  
+  .menuIcon {
+    width: 30px;
+    height: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .menuIconBar {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: #FF8C00;
+    border-radius: 3px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .navbarTogglerActive .menuIconBar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  
+  .navbarTogglerActive .menuIconBar:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .navbarTogglerActive .menuIconBar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+  
+  @media (max-width: 991px) {
+    .walletAdapterButton {
+      font-size: 14px !important;
+      padding: 0 10px !important;
+    }
+  }
+  
+  /* Additional styles for better navbar appearance */
+  .navbar {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  
+  .bgTransparent {
+    background-color: transparent !important;
+    backdrop-filter: blur(10px);
+  }
+  
+  .bgScrolled {
+    background-color: rgba(69, 41, 27, 0.8) !important; /* Darker brown with transparency */
+    backdrop-filter: blur(2px);
+  }
+  
+  .navLink {
+    color: #FFFFFF; /* Pure white for maximum contrast */
+  }
+  
+  .navLink.active {
+    color: #FFD700 !important; /* Gold */
+    border-bottom: 2px solid #FFD700;
+  }
+  
+  .navLink:hover {
+    color: #FFD700 !important;
+    border-bottom: 2px solid #FFD700;
+  }
+  
+  .navItem {
+    font-family: "BeldgoRegular", sans-serif;
+  }

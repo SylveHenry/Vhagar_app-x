@@ -84,12 +84,12 @@
 
 .headerItem {
   font-weight: bold;
-  color: #FFD700; /* Gold */
+  color: #FFD700; 
 }
 
 .tierItem {
   font-weight: bold;
-  color: #FFA500; /* Orange */
+  color: #FFA500; 
 }
 
 .column {
@@ -247,20 +247,7 @@
 }
 
 .dullYellowText {
-  color: #FFD700; /* Gold */
-}
-
-.walletButton {
-  background: linear-gradient(to right, #FF8C00, #FF4500) !important;
-  color: #FFFFFF !important;
-  border: 3px solid #FF8C00 !important;
-  transition: all 0.3s ease !important;
-}
-
-.walletButton:hover {
-  background: #2C1E16 !important;
-  color: #FFFFFF !important;
-  border: 3px solid #FF8C00 !important;
+  color: #FFD700; 
 }
 
 .displayArea {
@@ -315,10 +302,9 @@
 }
 
 .infoBox strong {
-  color: #FFA500; /* Orange */
+  color: #FFA500; 
 }
 
-/* Admin Page Styles */
 .adminSection {
   margin-bottom: 40px;
 }
@@ -439,19 +425,96 @@
   animation: spin 1s ease-in-out infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
 .error {
-  color: #FF6347; /* Tomato */
+  color: #FF6347; 
   font-weight: bold;
   padding: 10px;
   border-left: 4px solid #FF6347;
   background-color: rgba(255, 99, 71, 0.1);
 }
 
-/* Additional Admin Page Responsive Styles */
+.adminInput:focus, .adminSelect:focus, .executeButton:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+}
+
+.adminInput:hover, .adminSelect:hover {
+  border-color: #FFD700;
+}
+
+.adminCard:hover {
+  box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
+}
+
+.resultArea::-webkit-scrollbar {
+  width: 10px;
+}
+
+.resultArea::-webkit-scrollbar-track {
+  background: rgba(69, 41, 27, 0.8);
+}
+
+.resultArea::-webkit-scrollbar-thumb {
+  background-color: #A0522D;
+  border-radius: 5px;
+  border: 2px solid rgba(69, 41, 27, 0.8);
+}
+
+.resultArea::-webkit-scrollbar-thumb:hover {
+  background-color: #FF8C00;
+}
+
+.adminSection:not(:last-child) {
+  border-bottom: 2px solid rgba(160, 82, 45, 0.3);
+  padding-bottom: 30px;
+}
+
+.adminCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.adminCard h3 {
+  flex-grow: 0;
+}
+
+.adminCard .executeButton {
+  margin-top: auto;
+}
+
+.resultArea {
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.resultArea pre {
+  padding: 10px;
+  background-color: rgba(69, 41, 27, 0.5);
+  border-radius: 5px;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 140, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 140, 0, 0);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.executeButton:not(:disabled):hover {
+  animation: pulse 1.5s infinite;
+}
+
+/* Responsive styles */
 @media screen and (max-width: 1024px) {
   .adminCard {
     padding: 15px;
@@ -468,13 +531,6 @@
 
   .sectionTitle {
     font-size: 1.6em;
-  }
-}
-
-@media (max-width: 991px) {
-  .wallet-adapter-button {
-    font-size: 14px;
-    padding: 0 10px;
   }
 }
 
@@ -535,7 +591,6 @@
   }
 }
 
-/* Responsive styles */
 @media screen and (max-width: 767px) {
   .contai {
     margin-top: 139px;
@@ -639,87 +694,4 @@
   .sectionTitle {
     font-size: 1.4em;
   }
-}
-
-/* Accessibility improvements */
-.adminInput:focus, .adminSelect:focus, .executeButton:focus {
-  outline: 3px solid #FFD700;
-  outline-offset: 2px;
-}
-
-/* Additional hover effects for better user feedback */
-.adminInput:hover, .adminSelect:hover {
-  border-color: #FFD700;
-}
-
-.adminCard:hover {
-  box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
-}
-
-/* Improved scrollbar for result area */
-.resultArea::-webkit-scrollbar {
-  width: 10px;
-}
-
-.resultArea::-webkit-scrollbar-track {
-  background: rgba(69, 41, 27, 0.8);
-}
-
-.resultArea::-webkit-scrollbar-thumb {
-  background-color: #A0522D;
-  border-radius: 5px;
-  border: 2px solid rgba(69, 41, 27, 0.8);
-}
-
-.resultArea::-webkit-scrollbar-thumb:hover {
-  background-color: #FF8C00;
-}
-
-/* Additional styles for better spacing and readability in the admin panel */
-.adminSection:not(:last-child) {
-  border-bottom: 2px solid rgba(160, 82, 45, 0.3);
-  padding-bottom: 30px;
-}
-
-.adminCard {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.adminCard h3 {
-  flex-grow: 0;
-}
-
-.adminCard .executeButton {
-  margin-top: auto;
-}
-
-/* Enhance the result area for better readability */
-.resultArea {
-  line-height: 1.5;
-  font-size: 14px;
-}
-
-.resultArea pre {
-  padding: 10px;
-  background-color: rgba(69, 41, 27, 0.5);
-  border-radius: 5px;
-}
-
-/* Add a subtle animation to the execute button */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(255, 140, 0, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 140, 0, 0);
-  }
-}
-
-.executeButton:not(:disabled):hover {
-  animation: pulse 1.5s infinite;
 }
