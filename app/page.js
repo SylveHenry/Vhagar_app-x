@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import styles from "./page.module.css";
-import VhagerManager from "./components/VhagerManager";
+import VhagerManager from "./components/StakeManager";
 import { useState, useEffect } from "react";
 import { useWallet } from '@solana/wallet-adapter-react';
 import { config } from './config';
