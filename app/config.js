@@ -1,3 +1,9 @@
+/**
+ * SECURITY WARNING: Only NEXT_PUBLIC_* environment variables are safe to use here
+ * as this config is imported by client-side components. 
+ * NEVER add process.env.DISPLAY_SIGNER_KEY or other sensitive variables here.
+ */
+
 import { PublicKey } from '@solana/web3.js';
 
 export const config = {

@@ -1,3 +1,16 @@
+/**
+ * SECURITY NOTE: This file handles sensitive cryptographic operations
+ * 
+ * CRITICAL: The DISPLAY_SIGNER_KEY environment variable contains a private key
+ * and must NEVER be exposed to the client-side. This API route runs server-side only.
+ * 
+ * Security measures in place:
+ * 1. Environment variable validation
+ * 2. Error message sanitization (no internal details exposed to client)
+ * 3. Server-side only execution (Next.js API routes)
+ * 4. .env file is git-ignored
+ */
+
 import { Connection, Keypair } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
 import idl from '@/idl/idl.json';
@@ -10,8 +23,21 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Validate environment variable exists
+    if (!process.env.DISPLAY_SIGNER_KEY) {
+      console.error('DISPLAY_SIGNER_KEY environment variable is not set');
+      return res.status(500).json({ error: 'Server configuration error' });
+    }
+
     const connection = new Connection(config.rpcEndpoint);
-    const displaySigner = Keypair.fromSecretKey(bs58.decode(process.env.DISPLAY_SIGNER_KEY));
+    
+    let displaySigner;
+    try {
+      displaySigner = Keypair.fromSecretKey(bs58.decode(process.env.DISPLAY_SIGNER_KEY));
+    } catch (error) {
+      console.error('Invalid DISPLAY_SIGNER_KEY format:', error.message);
+      return res.status(500).json({ error: 'Server configuration error' });
+    }
 
     const provider = new anchor.AnchorProvider(
       connection,
@@ -53,6 +79,7 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error('Error fetching staking info:', error);
+    // Don't expose internal error details to the client
     res.status(500).json({ error: 'Failed to fetch staking info' });
   }
 }
