@@ -4,7 +4,20 @@ import { useState, useEffect, useCallback } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Connection, PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
-import { getAssociatedTokenAddress } from '@solana/spl-token';
+// getAssociatedTokenAddress is not available in @solana/spl-token@0.1.8
+// Using direct implementation instead
+const ASSOCIATED_TOKEN_PROGRAM_ID = new PublicKey('ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL');
+
+function getAssociatedTokenAddress(mint, owner, allowOwnerOffCurve = false, programId = tokenProgramId, associatedTokenProgramId = ASSOCIATED_TOKEN_PROGRAM_ID) {
+  return PublicKey.findProgramAddressSync(
+    [
+      owner.toBuffer(),
+      programId.toBuffer(),
+      mint.toBuffer(),
+    ],
+    associatedTokenProgramId
+  )[0];
+}
 import idl from '@/idl/idl.json';
 import styles from "../page.module.css";
 import { config } from '../config';
@@ -54,7 +67,7 @@ export default function VhagerManager({ setUserInfo }) {
 
   useEffect(() => {
     if (wallet.connected) {
-      const connection = new Connection(process.env.NEXT_PUBLIC_RPC_ENDPOINT, 'confirmed');
+      const connection = new Connection(config.rpcEndpoint, 'confirmed');
       const provider = new anchor.AnchorProvider(connection, wallet, {
         preflightCommitment: 'confirmed',
       });

@@ -9,4 +9,5 @@ export const config = {
   stakeVault: new PublicKey('DQPsctR9MT5MBgKhPQE8i8faM6CQU7HRtAn8o9fQ7nwG'),
   rewardVault: new PublicKey('DQPsctR9MT5MBgKhPQE8i8faM6CQU7HRtAn8o9fQ7nwG'),
   tokenDecimals: 9,
+  rpcEndpoint: process.env.NEXT_PUBLIC_RPC_ENDPOINT || 'https://api.mainnet-beta.solana.com',
 };

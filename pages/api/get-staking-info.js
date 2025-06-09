@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const connection = new Connection(process.env.NEXT_PUBLIC_RPC_ENDPOINT);
+    const connection = new Connection(config.rpcEndpoint);
     const displaySigner = Keypair.fromSecretKey(bs58.decode(process.env.DISPLAY_SIGNER_KEY));
 
     const provider = new anchor.AnchorProvider(
